@@ -1,0 +1,34 @@
+[
+ {
+  "id": "q1_sh194",
+  "shot": "q1",
+  "preset": "ts_s6",
+  "group": "sh194",
+  "opts": {
+   "ref_images": [
+    "ref1/r1_ref.png"
+   ],
+   "ref_audios": [
+    "ref1_voice_r1.wav"
+   ],
+   "shadow": true,
+   "decode_save": ""
+  }
+ },
+ {
+  "id": "q4_sh194",
+  "shot": "q4",
+  "preset": "ts_s6",
+  "group": "sh194",
+  "opts": {
+   "ref_images": [
+    "ref1/r4_ref.png"
+   ],
+   "ref_audios": [
+    "ref1_voice_r4.wav"
+   ],
+   "shadow": true,
+   "decode_save": ""
+  }
+ }
+]

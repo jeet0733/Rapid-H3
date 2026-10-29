@@ -1,0 +1,8 @@
+# Rapid-H3 eval set v1: six prompts covering
+# where quantization damage concentrates: faces, speech, motion, fine texture, legible text.
+Close-up portrait of an older woman with deep wrinkles and grey hair, soft window light, she speaks slowly and clearly.
+A news anchor at a desk delivering a report, clear articulate speech, studio room tone.
+Two people sitting across a cafe table in conversation, natural gestures, ambient chatter.
+A cyclist speeding past the camera on a wet street, motion blur and spray.
+Extreme close-up of a woven wool sweater, individual fibres visible in raking light.
+A neon sign reading OPEN above a diner door at night, reflections on wet pavement.

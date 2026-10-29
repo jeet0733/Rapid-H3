@@ -1,0 +1,112 @@
+{
+ "info": {
+  "torch": "2.10.0a0+b558c986e8.nv25.11",
+  "cuda": "13.0",
+  "device": "NVIDIA GB10",
+  "cc": [
+   12,
+   1
+  ]
+ },
+ "gemm": [
+  {
+   "gemm": "qkv",
+   "m": 40000,
+   "k": 5376,
+   "n": 16128,
+   "bf16_ms": 67.7011776715517,
+   "fp8_tensorwise_ms": 35.37954964364568,
+   "fp8_rowwise_ms": 75187.90592812002,
+   "int8_torch_ms": 42.09874966181815,
+   "int8_ck_ms": 41.47383632759253,
+   "bf16_tflops": 102.45508983095094,
+   "fp8_tensorwise_tflops": 196.05479181801272,
+   "fp8_rowwise_tflops": 0.09225327071392524,
+   "int8_torch_tflops": 164.76333135116766,
+   "int8_ck_tflops": 167.2459278956372
+  },
+  {
+   "gemm": "out_proj",
+   "m": 40000,
+   "k": 5376,
+   "n": 5376,
+   "bf16_ms": 23.19042997745176,
+   "fp8_tensorwise_ms": 11.516197041297952,
+   "fp8_rowwise_ms": 25426.690041087568,
+   "int8_torch_ms": 14.205257020269832,
+   "int8_ck_ms": 14.045854952807227,
+   "bf16_tflops": 99.70104401893725,
+   "fp8_tensorwise_tflops": 200.7702778711235,
+   "fp8_rowwise_tflops": 0.09093240513270932,
+   "int8_torch_tflops": 162.7643960753961,
+   "int8_ck_tflops": 164.61155890961965
+  },
+  {
+   "gemm": "fc1",
+   "m": 40000,
+   "k": 5376,
+   "n": 28672,
+   "bf16_ms": 118.29530463243525,
+   "fp8_tensorwise_ms": 62.206293611476816,
+   "fp8_rowwise_ms": 106096.44952905364,
+   "int8_torch_ms": 74.09127266146243,
+   "int8_ck_ms": 73.76070669852197,
+   "bf16_tflops": 104.2412782004782,
+   "fp8_tensorwise_tflops": 198.23161040613635,
+   "fp8_rowwise_tflops": 0.1162268277094719,
+   "int8_torch_tflops": 166.43328312558376,
+   "int8_ck_tflops": 167.179170481661
+  },
+  {
+   "gemm": "fc2",
+   "m": 40000,
+   "k": 14336,
+   "n": 5376,
+   "bf16_ms": 65.6833319614331,
+   "fp8_tensorwise_ms": 31.882651693498097,
+   "fp8_rowwise_ms": 19688.033035956323,
+   "int8_torch_ms": 39.40236537406842,
+   "int8_ck_ms": 38.39072662716111,
+   "bf16_tflops": 93.86897247569955,
+   "fp8_tensorwise_tflops": 193.38500885286683,
+   "fp8_rowwise_tflops": 0.3131662197406767,
+   "int8_torch_tflops": 156.47859770514535,
+   "int8_ck_tflops": 160.6019844291739
+  }
+ ],
+ "attention": [
+  {
+   "attn": "sdpa_flash",
+   "s": 40000,
+   "ms": 501.82722695171833,
+   "tflops": 91.41632326062239,
+   "cos_vs_flash": 1.000000238418579
+  },
+  {
+   "attn": "sdpa_cudnn",
+   "s": 40000,
+   "ms": 498.351295478642,
+   "tflops": 92.0539394925002,
+   "cos_vs_flash": 0.9999953508377075
+  },
+  {
+   "attn": "sdpa_efficient",
+   "s": 40000,
+   "ms": 1284.6461129374802,
+   "tflops": 35.71037933170674,
+   "cos_vs_flash": 0.9999953508377075
+  },
+  {
+   "attn": "ck_int8_attention",
+   "s": 40000,
+   "ms": 310.82320294808596,
+   "tflops": 147.59258499650082,
+   "cos_vs_flash": 0.9998568892478943
+  },
+  {
+   "attn": "ck_sage_attention",
+   "s": 40000,
+   "err": "'module' object is not callable"
+  }
+ ]
+}

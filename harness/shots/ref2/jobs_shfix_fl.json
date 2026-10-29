@@ -1,0 +1,24 @@
+[
+ {
+  "id": "er11_sh194ex4",
+  "shot": "er11",
+  "preset": "ts_s6",
+  "group": "sh194ex4_fl",
+  "opts": {
+   "shadow": true,
+   "decode_save": "",
+   "rapidh3_attn_exact": "text,cond,cond_audio,audio"
+  }
+ },
+ {
+  "id": "er41_sh194ex4",
+  "shot": "er41",
+  "preset": "ts_s6",
+  "group": "sh194ex4_fl",
+  "opts": {
+   "shadow": true,
+   "decode_save": "",
+   "rapidh3_attn_exact": "text,cond,cond_audio,audio"
+  }
+ }
+]

@@ -1,0 +1,36 @@
+[
+ {
+  "file": "syn_40k.pt",
+  "S": 40000,
+  "sdpa_flash_bf16": {
+   "err": 0.00233,
+   "ms": 1155.6,
+   "tflops": 39.7
+  },
+  "ck_int8": {
+   "err": 0.01747,
+   "ms": 700.7,
+   "tflops": 65.5
+  },
+  "sage2_int8qk_fp8pv_fp32+fp32": {
+   "err": 0.0386,
+   "ms": 668.0,
+   "tflops": 68.7
+  },
+  "sage2_int8qk_fp8pv_fp32+fp16": {
+   "err": 0.03866,
+   "ms": 689.6,
+   "tflops": 66.5
+  },
+  "sage2_int8qk_fp8pv_fp32": {
+   "err": 0.0386,
+   "ms": 666.1,
+   "tflops": 68.9
+  },
+  "sage2_int8qk_fp8pv_smoothv": {
+   "err": 0.04327,
+   "ms": 661.6,
+   "tflops": 69.3
+  }
+ }
+]

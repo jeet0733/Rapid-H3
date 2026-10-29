@@ -1,0 +1,133 @@
+[
+ {
+  "id": "q1",
+  "char": "r1",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, natural film look, shallow depth of field, warm lamplight. The fisherman from <Picture 1>, in his faded blue knit cap and dark sweater, sits at a worn wooden table in a dim harbour tavern at night, both hands around a mug of tea; oil lamps and fishing floats on the wall behind him. Timeline: [0s-5.9s] He leans forward, looks at the camera and speaks in a low warning tone. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: in the voice of <Audio 1>, low, gravelly and unhurried, the character says: \"Nobody goes out past the lighthouse after dark. Nobody.\" Quiet murmur of the tavern, creaking wood. No music.",
+  "ref_image": "ref1/r1_ref.png",
+  "ref_audio": "ref1_voice_r1.wav",
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7,
+  "line": "Nobody goes out past the lighthouse after dark. Nobody.",
+  "camera": "static"
+ },
+ {
+  "id": "q4",
+  "char": "r4",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, night city street, soft orange streetlight, intimate close-up. The man from <Picture 1>, with his short greying hair and trimmed beard, wearing a dark wool coat, stands at a bus stop on a wet city street at night; blurred car lights pass behind him. Timeline: [0s-5.9s] He holds a phone to his ear, looks down, then up toward the camera and speaks apologetically. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: in the voice of <Audio 1>, calm, soft and tired, the character says: \"I missed the last train again. I'm sorry, I'll be late.\" Light rain, distant traffic. No music.",
+  "ref_image": "ref1/r4_ref.png",
+  "ref_audio": "ref1_voice_r4.wav",
+  "width": 768,
+  "height": 1344,
+  "length": 141,
+  "seed": 7,
+  "line": "I missed the last train again. I'm sorry, I'll be late.",
+  "camera": "static"
+ },
+ {
+  "id": "q3",
+  "char": "f3",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, natural film look, soft morning sunlight. The woman from <Picture 1>, with her dark hair pinned back, now wearing a grey hooded sweatshirt instead of a spacesuit, sits at a kitchen table in a sunny farmhouse kitchen on Earth, rain on the window behind her. Timeline: [0s-5.9s] She glances at the window, smiles and turns to the camera to speak. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: in the voice of <Audio 1>, warm and calm, the character says: \"Two years up there, and now the rain sounds like music.\" Gentle rain on glass, a kettle ticking. No music.",
+  "ref_image": "ref1/f3_ref.png",
+  "ref_audio": "ref1_voice_f3.wav",
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7,
+  "line": "Two years up there, and now the rain sounds like music.",
+  "camera": "static"
+ },
+ {
+  "id": "q5",
+  "char": "f4",
+  "prompt": "Single continuous unbroken shot, no cuts. Cinematic science fiction, photorealistic, soft green daylight. The android from <Picture 1>, with its smooth pale porcelain face, seams along its head and cheeks and a grey high-collared top, stands in a glass greenhouse full of tall plants and hanging vines. Timeline: [0s-5.9s] It touches a leaf, then looks at the camera and speaks thoughtfully. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: in the voice of <Audio 1>, calm, precise and gentle, the character says: \"These plants grow a little every day. I find that comforting.\" Soft dripping water, faint ventilation hum. No music.",
+  "ref_image": "ref1/f4_ref.png",
+  "ref_audio": "ref1_voice_f4.wav",
+  "width": 768,
+  "height": 1344,
+  "length": 141,
+  "seed": 7,
+  "line": "These plants grow a little every day. I find that comforting.",
+  "camera": "static"
+ },
+ {
+  "id": "q6",
+  "char": "r1",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, natural film look, overcast daylight, medium two-shot. The fisherman from <Picture 1>, in his faded blue knit cap and dark sweater, and the astronaut from <Picture 2>, with her dark hair pinned back, in a white spacesuit without a helmet, sit side by side on a weathered wooden bench at the end of a harbour pier; grey sea and moored boats behind them. Timeline: [0s-5.9s] The astronaut listens; the fisherman turns to her and speaks with a wry smile. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: in the voice of <Audio 1>, low and gravelly, the fisherman says: \"You fly to the moon, and you still can't tie a decent knot.\" Gulls, waves against the pier. No music.",
+  "ref_image": "ref1/r1_ref.png",
+  "ref_audio": "ref1_voice_r1.wav",
+  "refs": {
+   "ref_images": [
+    "ref1/r1_ref.png",
+    "ref1/f3_ref.png"
+   ],
+   "ref_audios": [
+    "ref1_voice_r1.wav"
+   ]
+  },
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7,
+  "line": "You fly to the moon, and you still can't tie a decent knot.",
+  "camera": "static"
+ },
+ {
+  "id": "q7",
+  "char": "x5",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, warm golden evening light, medium two-shot. The father and his teenage daughter from <Picture 1>, he in a grey sweater, she with long brown hair in a striped t-shirt, sit on the wooden steps of a front porch at sunset, a bicycle leaning on the railing. Timeline: [0s-5.9s] The daughter looks at him; the father smiles and speaks softly. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: in the voice of <Audio 1>, calm, soft and warm, the father says: \"You were this small when I taught you to ride that bike.\" Crickets, a distant dog barking. No music.",
+  "ref_image": "eval_x5.png",
+  "ref_audio": "ref1_voice_r4.wav",
+  "refs": {
+   "ref_images": [
+    "eval_x5.png"
+   ],
+   "ref_audios": [
+    "ref1_voice_r4.wav"
+   ]
+  },
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7,
+  "line": "You were this small when I taught you to ride that bike.",
+  "camera": "static"
+ },
+ {
+  "id": "q8",
+  "char": "r4",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, warm cafe light, intimate close-up. The man from <Video 1>, with his short greying hair, trimmed beard and kind tired eyes, wearing a dark sweater, sits at a small table in a busy train station cafe, a cup of coffee in front of him. Timeline: [0s-5.9s] He looks up from his cup at the camera and speaks gently. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: in the voice of <Audio 1>, calm, soft and sincere, the character says: \"I kept your seat by the window. Just in case.\" Cafe chatter, a distant platform announcement. No music.",
+  "ref_image": "eval_r4.png",
+  "ref_audio": "ref2_voice_er41.wav",
+  "refs": {
+   "ref_videos": [
+    "ref2_er41_5s.mp4"
+   ]
+  },
+  "width": 768,
+  "height": 1344,
+  "length": 141,
+  "seed": 7,
+  "line": "I kept your seat by the window. Just in case.",
+  "camera": "static"
+ },
+ {
+  "id": "q9",
+  "char": "f3",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, natural film look, soft afternoon sunlight. The woman from <Video 1>, with her dark hair pinned back, now wearing a green parka instead of a spacesuit, sits on a park bench under autumn trees, fallen leaves around her. Timeline: [0s-5.9s] She watches the leaves, then turns to the camera and speaks. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: in the voice of <Audio 1>, steady, clear and warm, the character says: \"Up there I missed the seasons most. Look at these colours.\" Rustling leaves, distant children playing. No music.",
+  "ref_image": "eval_f3.png",
+  "ref_audio": "ref2_voice_ef31.wav",
+  "refs": {
+   "ref_videos": [
+    "ref2_ef31_5s.mp4"
+   ]
+  },
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7,
+  "line": "Up there I missed the seasons most. Look at these colours.",
+  "camera": "static"
+ }
+]

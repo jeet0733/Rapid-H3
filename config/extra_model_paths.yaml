@@ -1,0 +1,13 @@
+# extra downloads in $RAPIDH3_DIR/models (default ~/rapid-h3/models; serve.sh mounts it at /work/models), next to the
+# read-only H3 weights from RAPIDH3_MODELS
+rapid_h3:
+  base_path: /work/models
+  vae: vae
+  diffusion_models: diffusion_models
+  text_encoders: text_encoders
+  loras: loras
+  pdd_acc: loras   # PDD Acc files (MiniMaxH3PDDAccApply) live next to our LoRAs
+# Ref2VA DiT files mounted one by one by serve.sh RAPIDH3_REF2VA (opt-in; the folder is absent otherwise)
+ref2va:
+  base_path: /work/ref2va
+  diffusion_models: .

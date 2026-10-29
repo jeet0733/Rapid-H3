@@ -1,0 +1,77 @@
+[
+ {
+  "file": "s1_b25.pt",
+  "S": 37728,
+  "H": 56,
+  "ck_int8": {
+   "err": 0.0082,
+   "ms": 265.5,
+   "tflops": 153.7
+  },
+  "ours_c2_sk_sv_rot": {
+   "err": 0.00738,
+   "ms": 279.3,
+   "tflops": 146.1
+  },
+  "ours_c20_sk_sv_rot": {
+   "err": 0.00666,
+   "ms": 285.0,
+   "tflops": 143.2
+  },
+  "ours_c52_sk_sv_rot": {
+   "err": 0.01031,
+   "ms": 261.7,
+   "tflops": 156.0
+  }
+ },
+ {
+  "file": "s5_b05.pt",
+  "S": 37728,
+  "H": 56,
+  "ck_int8": {
+   "err": 0.00918,
+   "ms": 267.1,
+   "tflops": 152.8
+  },
+  "ours_c2_sk_sv_rot": {
+   "err": 0.00842,
+   "ms": 280.6,
+   "tflops": 145.4
+  },
+  "ours_c20_sk_sv_rot": {
+   "err": 0.0081,
+   "ms": 285.7,
+   "tflops": 142.9
+  },
+  "ours_c52_sk_sv_rot": {
+   "err": 0.01506,
+   "ms": 263.9,
+   "tflops": 154.7
+  }
+ },
+ {
+  "file": "s5_b45.pt",
+  "S": 37728,
+  "H": 56,
+  "ck_int8": {
+   "err": 0.01225,
+   "ms": 267.6,
+   "tflops": 152.5
+  },
+  "ours_c2_sk_sv_rot": {
+   "err": 0.00973,
+   "ms": 279.0,
+   "tflops": 146.3
+  },
+  "ours_c20_sk_sv_rot": {
+   "err": 0.0093,
+   "ms": 286.7,
+   "tflops": 142.4
+  },
+  "ours_c52_sk_sv_rot": {
+   "err": 0.01587,
+   "ms": 261.6,
+   "tflops": 156.0
+  }
+ }
+]

@@ -1,0 +1,338 @@
+{
+ "1": {
+  "class_type": "UNETLoader",
+  "inputs": {
+   "unet_name": "minimax_h3_fl2va_pruned_bf16.safetensors",
+   "weight_dtype": "default"
+  }
+ },
+ "2": {
+  "class_type": "CLIPLoader",
+  "inputs": {
+   "clip_name": "qwen3vl_32b_minimax_h3_int8_convrot.safetensors",
+   "type": "minimax",
+   "device": "default"
+  }
+ },
+ "3": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "minimax_h3_video_vae_int8_convrot.safetensors"
+  }
+ },
+ "4": {
+  "class_type": "VAELoader",
+  "inputs": {
+   "vae_name": "minimax_h3_audio_vae_fp32.safetensors"
+  }
+ },
+ "6": {
+  "class_type": "MiniMaxH3SigmaShift",
+  "inputs": {
+   "model": [
+    "1",
+    0
+   ],
+   "shift_video": 12.0,
+   "shift_audio": 3.0
+  }
+ },
+ "6a": {
+  "class_type": "ModelAttentionBackend",
+  "inputs": {
+   "model": [
+    "6",
+    0
+   ],
+   "attention": "comfy kitchen attention"
+  }
+ },
+ "6i": {
+  "class_type": "RapidH3Int8Attention",
+  "inputs": {
+   "model": [
+    "6a",
+    0
+   ],
+   "config": 190
+  }
+ },
+ "6c": {
+  "class_type": "RapidH3LinearQuant",
+  "inputs": {
+   "model": [
+    "6i",
+    0
+   ],
+   "mode": "int8_rot",
+   "targets": "qkv_proj,out_proj,fc1,fc2",
+   "keep_bf16_blocks": "",
+   "measure_every": 0,
+   "fuse_block": true
+  }
+ },
+ "6t": {
+  "class_type": "RapidH3StepTimer",
+  "inputs": {
+   "model": [
+    "6c",
+    0
+   ]
+  }
+ },
+ "9": {
+  "class_type": "LoadImage",
+  "inputs": {
+   "image": "first_frame.png"
+  }
+ },
+ "10": {
+  "class_type": "RapidH3DraftConditioning",
+  "inputs": {
+   "conditioning": [
+    "10d",
+    0
+   ],
+   "vae": [
+    "3",
+    0
+   ],
+   "width": 1344,
+   "height": 768,
+   "length": 141,
+   "first_frame": [
+    "9",
+    0
+   ]
+  }
+ },
+ "11": {
+  "class_type": "RandomNoise",
+  "inputs": {
+   "noise_seed": 7
+  }
+ },
+ "12": {
+  "class_type": "KSamplerSelect",
+  "inputs": {
+   "sampler_name": "res_multistep"
+  }
+ },
+ "13": {
+  "class_type": "BasicScheduler",
+  "inputs": {
+   "model": [
+    "6t",
+    0
+   ],
+   "scheduler": "simple",
+   "steps": 6,
+   "denoise": 1.0
+  }
+ },
+ "14": {
+  "class_type": "BasicGuider",
+  "inputs": {
+   "model": [
+    "6t",
+    0
+   ],
+   "conditioning": [
+    "10",
+    0
+   ]
+  }
+ },
+ "15": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "11",
+    0
+   ],
+   "guider": [
+    "14",
+    0
+   ],
+   "sampler": [
+    "12",
+    0
+   ],
+   "sigmas": [
+    "13r",
+    0
+   ],
+   "latent_image": [
+    "15j",
+    0
+   ]
+  }
+ },
+ "17": {
+  "class_type": "VAEDecodeAudio",
+  "inputs": {
+   "samples": [
+    "15",
+    0
+   ],
+   "vae": [
+    "4",
+    0
+   ]
+  }
+ },
+ "24": {
+  "class_type": "RapidH3SaveLatent",
+  "inputs": {
+   "samples": [
+    "15",
+    0
+   ],
+   "filename_prefix": "ts_h2/clip"
+  }
+ },
+ "23": {
+  "class_type": "RapidH3DecodeSaveVideo",
+  "inputs": {
+   "samples": [
+    "15",
+    0
+   ],
+   "vae": [
+    "3",
+    0
+   ],
+   "fps": 24.0,
+   "filename_prefix": "ts_h2/clip",
+   "overlap": true,
+   "audio": [
+    "17",
+    0
+   ]
+  }
+ },
+ "10d": {
+  "class_type": "MiniMaxH3ImageToVideo",
+  "inputs": {
+   "clip": [
+    "2q",
+    0
+   ],
+   "vae": [
+    "3",
+    0
+   ],
+   "prompt": "Single continuous unbroken shot, no cuts. <describe the scene, the action, the camera and the spoken line>",
+   "width": 928,
+   "height": 544,
+   "length": 141,
+   "first_frame": [
+    "9",
+    0
+   ]
+  }
+ },
+ "14d": {
+  "class_type": "BasicGuider",
+  "inputs": {
+   "model": [
+    "6t",
+    0
+   ],
+   "conditioning": [
+    "10d",
+    0
+   ]
+  }
+ },
+ "15d": {
+  "class_type": "SamplerCustomAdvanced",
+  "inputs": {
+   "noise": [
+    "11",
+    0
+   ],
+   "guider": [
+    "14d",
+    0
+   ],
+   "sampler": [
+    "12",
+    0
+   ],
+   "sigmas": [
+    "13",
+    0
+   ],
+   "latent_image": [
+    "10d",
+    1
+   ]
+  }
+ },
+ "15s": {
+  "class_type": "LTXVSeparateAVLatent",
+  "inputs": {
+   "av_latent": [
+    "15d",
+    1
+   ]
+  }
+ },
+ "15u": {
+  "class_type": "MinimaxH3LatentUpscaler3D",
+  "inputs": {
+   "latent": [
+    "15s",
+    0
+   ],
+   "model_name": "minimax_h3_latent_upscaler_3d_fp16.safetensors",
+   "mode": "target dimensions",
+   "mode.width": 1344,
+   "mode.height": 768,
+   "align": 32,
+   "enable_temporal_chunking": false,
+   "force_unload": false,
+   "device": "cuda",
+   "precision": "fp16"
+  }
+ },
+ "15j": {
+  "class_type": "LTXVConcatAVLatent",
+  "inputs": {
+   "video_latent": [
+    "15u",
+    0
+   ],
+   "audio_latent": [
+    "15f",
+    0
+   ]
+  }
+ },
+ "13r": {
+  "class_type": "ManualSigmas",
+  "inputs": {
+   "sigmas": "0.72, 0"
+  }
+ },
+ "15f": {
+  "class_type": "LTXVFreezeLatent",
+  "inputs": {
+   "latent": [
+    "15s",
+    1
+   ]
+  }
+ },
+ "2q": {
+  "class_type": "RapidH3TextEncoderQuant",
+  "inputs": {
+   "clip": [
+    "2",
+    0
+   ],
+   "mode": "int8_rot"
+  }
+ }
+}

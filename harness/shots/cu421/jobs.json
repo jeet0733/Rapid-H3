@@ -1,0 +1,26 @@
+[
+ {
+  "id": "er41_ts_h2",
+  "shot": "er41",
+  "preset": "ts_h2",
+  "opts": {}
+ },
+ {
+  "id": "ef31_ts_h2",
+  "shot": "ef31",
+  "preset": "ts_h2",
+  "opts": {}
+ },
+ {
+  "id": "er41_ts_s6",
+  "shot": "er41",
+  "preset": "ts_s6",
+  "opts": {}
+ },
+ {
+  "id": "ef31_ts_s6",
+  "shot": "ef31",
+  "preset": "ts_s6",
+  "opts": {}
+ }
+]

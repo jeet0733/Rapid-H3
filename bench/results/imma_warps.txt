@@ -1,0 +1,17 @@
+acc= 8 extra=0 warps/SM= 4:  224.9 TFLOPS
+acc=16 extra=0 warps/SM= 4:  231.0 TFLOPS
+acc= 8 extra=0 warps/SM= 8:  244.5 TFLOPS
+acc=16 extra=0 warps/SM= 8:  246.9 TFLOPS
+acc= 8 extra=0 warps/SM=12:  246.8 TFLOPS
+acc=16 extra=0 warps/SM=12:  247.6 TFLOPS
+acc= 8 extra=0 warps/SM=16:  246.8 TFLOPS
+acc=16 extra=0 warps/SM=16:  248.0 TFLOPS
+acc= 8 extra=1 warps/SM= 8:  239.9 TFLOPS
+acc= 8 extra=2 warps/SM= 8:  237.6 TFLOPS
+acc= 8 extra=4 warps/SM= 8:  231.0 TFLOPS
+acc= 8 extra=8 warps/SM= 8:  208.1 TFLOPS
+acc= 8 extra=1 warps/SM=16:  243.2 TFLOPS
+acc= 8 extra=2 warps/SM=16:  239.8 TFLOPS
+acc= 8 extra=4 warps/SM=16:  233.1 TFLOPS
+acc= 8 extra=8 warps/SM=16:  213.3 TFLOPS
+err=no error

@@ -1,0 +1,138 @@
+1000 0 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+1000 1 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+1000 TIME {
+ "chain194": 2.27,
+ "chain394": 1.776,
+ "gemm6": 1.454,
+ "gemm5": 1.157,
+ "gemm_prep": 1.317,
+ "pre194": 0.578,
+ "pre394": 0.225,
+ "saved_ms": 0.494,
+ "kernels_pre194": {
+  "void (anonymous namespace)::stats_partial_rr<96>(__nv_bfloat16 const*,": 0.288,
+  "void (anonymous namespace)::quant_qk_rr<96>(__nv_bfloat16 const*, __nv": 0.169,
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 0.106,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.001
+ },
+ "kernels_pre394": {
+  "void (anonymous namespace)::quant_k_rr<96>(__nv_bfloat16 const*, long,": 0.107,
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 0.104,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.003
+ }
+}
+4096 0 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+4096 1 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+4096 TIME {
+ "chain194": 9.836,
+ "chain394": 9.324,
+ "gemm6": 5.092,
+ "gemm5": 4.994,
+ "gemm_prep": 5.557,
+ "pre194": 1.672,
+ "pre394": 0.86,
+ "saved_ms": 0.512,
+ "kernels_pre194": {
+  "void (anonymous namespace)::quant_qk_rr<96>(__nv_bfloat16 const*, __nv": 0.748,
+  "void (anonymous namespace)::stats_partial_rr<96>(__nv_bfloat16 const*,": 0.517,
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 0.391,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.002
+ },
+ "kernels_pre394": {
+  "void (anonymous namespace)::quant_k_rr<96>(__nv_bfloat16 const*, long,": 0.423,
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 0.414,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.01
+ }
+}
+22310 0 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+22310 1 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+22310 TIME {
+ "chain194": 118.069,
+ "chain394": 116.789,
+ "gemm6": 25.604,
+ "gemm5": 25.885,
+ "gemm_prep": 29.041,
+ "pre194": 9.468,
+ "pre394": 4.724,
+ "saved_ms": 1.28,
+ "kernels_pre194": {
+  "void (anonymous namespace)::quant_qk_rr<96>(__nv_bfloat16 const*, __nv": 4.712,
+  "void (anonymous namespace)::stats_partial_rr<96>(__nv_bfloat16 const*,": 3.165,
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 2.522,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.037
+ },
+ "kernels_pre394": {
+  "void (anonymous namespace)::quant_k_rr<96>(__nv_bfloat16 const*, long,": 2.78,
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 2.334,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.062
+ }
+}
+22332 0 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+22332 1 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+22332 TIME {
+ "chain194": 118.32,
+ "chain394": 116.921,
+ "gemm6": 25.758,
+ "gemm5": 26.025,
+ "gemm_prep": 29.225,
+ "pre194": 9.562,
+ "pre394": 4.653,
+ "saved_ms": 1.399,
+ "kernels_pre194": {
+  "void (anonymous namespace)::quant_qk_rr<96>(__nv_bfloat16 const*, __nv": 4.264,
+  "void (anonymous namespace)::stats_partial_rr<96>(__nv_bfloat16 const*,": 2.906,
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 2.257,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.037
+ },
+ "kernels_pre394": {
+  "void (anonymous namespace)::quant_k_rr<96>(__nv_bfloat16 const*, long,": 2.274,
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 2.253,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.056
+ }
+}
+44455 0 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+44455 1 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+44455 TIME {
+ "chain194": 399.242,
+ "chain394": 397.439,
+ "gemm6": 51.182,
+ "gemm5": 51.742,
+ "gemm_prep": 58.126,
+ "pre194": 18.782,
+ "pre394": 9.091,
+ "saved_ms": 1.803,
+ "kernels_pre194": {
+  "void (anonymous namespace)::quant_qk_rr<96>(__nv_bfloat16 const*, __nv": 8.572,
+  "void (anonymous namespace)::stats_partial_rr<96>(__nv_bfloat16 const*,": 5.526,
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 4.518,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.087
+ },
+ "kernels_pre394": {
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 4.568,
+  "void (anonymous namespace)::quant_k_rr<96>(__nv_bfloat16 const*, long,": 4.519,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.118
+ }
+}
+44992 0 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+44992 1 {"kv_equal": true, "operands": {"q8": true, "qs": true, "k8": true, "ks": true, "ksb": true, "vt": true, "vscale": true, "vmean": true}, "out_equal": true, "max_abs_diff": 0.0}
+44992 TIME {
+ "chain194": 416.175,
+ "chain394": 414.753,
+ "gemm6": 52.679,
+ "gemm5": 52.968,
+ "gemm_prep": 59.959,
+ "pre194": 19.078,
+ "pre394": 9.22,
+ "saved_ms": 1.422,
+ "kernels_pre194": {
+  "void (anonymous namespace)::quant_qk_rr<96>(__nv_bfloat16 const*, __nv": 8.649,
+  "void (anonymous namespace)::stats_partial_rr<96>(__nv_bfloat16 const*,": 5.716,
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 4.504,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.087
+ },
+ "kernels_pre394": {
+  "void (anonymous namespace)::quant_k_rr<96>(__nv_bfloat16 const*, long,": 4.599,
+  "(anonymous namespace)::quant_v(__nv_bfloat16 const*, long, long, int, ": 4.518,
+  "(anonymous namespace)::stats_final(float const*, int, int, int, int, f": 0.118
+ }
+}

@@ -1,0 +1,22 @@
+[
+ {
+  "id": "er11_sh194",
+  "shot": "er11",
+  "preset": "ts_s6",
+  "group": "sh194_fl",
+  "opts": {
+   "shadow": true,
+   "decode_save": ""
+  }
+ },
+ {
+  "id": "er41_sh194",
+  "shot": "er41",
+  "preset": "ts_s6",
+  "group": "sh194_fl",
+  "opts": {
+   "shadow": true,
+   "decode_save": ""
+  }
+ }
+]

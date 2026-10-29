@@ -1,0 +1,18 @@
+[
+ {
+  "id": "q1_dump",
+  "shot": "q1",
+  "preset": "ts_s6",
+  "opts": {
+   "ref_images": [
+    "ref1/r1_ref.png"
+   ],
+   "ref_audios": [
+    "ref1_voice_r1.wav"
+   ],
+   "rapidh3_attn": 94,
+   "dump_qkv": true,
+   "decode_save": ""
+  }
+ }
+]

@@ -1,0 +1,66 @@
+[
+ {
+  "M": 17700,
+  "gemm": "qkv",
+  "cutlass6": 204.8,
+  "persist_g0": 187.4,
+  "equal_g0": true,
+  "persist_g-48": 196.7
+ },
+ {
+  "M": 17700,
+  "gemm": "out_proj",
+  "cutlass6": 200.2,
+  "persist_g0": 185.2,
+  "equal_g0": true,
+  "persist_g-48": 208.0
+ },
+ {
+  "M": 17700,
+  "gemm": "fc1",
+  "cutlass6": 202.8,
+  "persist_g0": 189.2,
+  "equal_g0": true,
+  "persist_g-48": 211.1
+ },
+ {
+  "M": 17700,
+  "gemm": "fc2",
+  "cutlass6": 182.1,
+  "persist_g0": 174.8,
+  "equal_g0": true,
+  "persist_g-48": 198.7
+ },
+ {
+  "M": 36300,
+  "gemm": "qkv",
+  "cutlass6": 204.3,
+  "persist_g0": 183.6,
+  "equal_g0": true,
+  "persist_g-48": 213.5
+ },
+ {
+  "M": 36300,
+  "gemm": "out_proj",
+  "cutlass6": 202.2,
+  "persist_g0": 183.6,
+  "equal_g0": true,
+  "persist_g-48": 210.0
+ },
+ {
+  "M": 36300,
+  "gemm": "fc1",
+  "cutlass6": 203.8,
+  "persist_g0": 189.7,
+  "equal_g0": true,
+  "persist_g-48": 207.0
+ },
+ {
+  "M": 36300,
+  "gemm": "fc2",
+  "cutlass6": 183.3,
+  "persist_g0": 155.5,
+  "equal_g0": true,
+  "persist_g-48": 193.2
+ }
+]

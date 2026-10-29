@@ -1,0 +1,66 @@
+Rapid-H3: fast MiniMax-H3 video + audio on one DGX Spark
+Copyright 2026 The Rapid-H3 authors
+
+This project's own code, scripts and documentation are licensed under the Apache License, Version 2.0 (see
+LICENSE). Rapid-H3 is an independent project, not affiliated with or endorsed by MiniMax, NVIDIA or Comfy Org; names
+and marks belong to their owners.
+
+MiniMax H3 is licensed under the MiniMax H3 Community License Agreement, Copyright © 2026 MiniMax. All Rights
+Reserved.
+
+Third-party code included in this repository (each part keeps its own license; full texts in licenses/):
+
+comfy-kitchen
+  https://github.com/Comfy-Org/comfy-kitchen (version 0.2.37; the copied parts are unchanged in 0.2.39)
+  Copyright (c) 2025 Comfy Org; Copyright (c) 2025 NVIDIA CORPORATION & AFFILIATES. Apache License, Version 2.0
+  (the same text as LICENSE).
+  Copied into custom_nodes/rapid_h3/csrc/vae_ops.cu, marked there by "copied from comfy-kitchen" comments:
+  - convrot64_quantize_row and the fp16 helpers of ops/int8_linear.cu (unchanged);
+  - the SageAttention Q/K quantizer and K-anchor detector of sage_attention/quant_qk_int8.cu, and the per-element
+    q/k RMSNorm + split-half rope math of ops/rms_rope.cu and ops/rope_device.cuh, fused into one kernel
+    (vae_qk_rope_quant).
+  The INT8 GEMMs in the same file (vae_gemm) re-create comfy-kitchen's FusedInt8Gemm / FusedInt8GemmResidual
+  CUTLASS epilogues (the same epilogue visitor ops in the same order) with our own tile choices. The q/k RMSNorm +
+  RoPE in csrc/attn_int8.cu and csrc/rr_row.cuh reproduce comfy-kitchen's numerics in our own code.
+
+NVIDIA CUTLASS v4.2.1
+  https://github.com/NVIDIA/cutlass
+  Copyright (c) 2017 - 2025 NVIDIA CORPORATION & AFFILIATES. All rights reserved. BSD-3-Clause
+  (licenses/CUTLASS-BSD-3-Clause.txt).
+  The epilogue visitors VisitorSwigluStore and VisitorQkvPrep (custom_nodes/rapid_h3/csrc/fp8_rowwise.cu) and
+  VisitorSwigluStoreH (custom_nodes/rapid_h3/csrc/vae_ops.cu) are adapted from CUTLASS's VisitorAuxStore
+  (include/cutlass/epilogue/threadblock/fusion/visitor_store.hpp). The CUTLASS headers themselves are fetched at
+  build time and not included.
+
+syncnet_python
+  https://github.com/joonson/syncnet_python
+  Copyright (c) 2016-present Joon Son Chung. MIT License (licenses/syncnet_python-MIT.txt).
+  The face tracking, IoU and SyncNet offset / confidence scoring in harness/eval_clips.py (iou, syncnet_score,
+  syncnet_block) are adapted from its run_pipeline.py and SyncNetInstance.py.
+
+DNSMOS (microsoft/DNS-Challenge)
+  https://github.com/microsoft/DNS-Challenge
+  Copyright (c) Microsoft Corporation. MIT License (licenses/DNSMOS-MIT.txt).
+  dnsmos() in harness/audio_quality.py is adapted from DNSMOS/dnsmos_local.py.
+
+Third-party software this project builds against or runs with (not included in this repository):
+
+ComfyUI                     https://github.com/Comfy-Org/ComfyUI                GPL-3.0
+  The node pack runs inside ComfyUI and calls its code; ComfyUI's own license applies to ComfyUI and to anything
+  distributed together with it.
+comfy-kitchen               https://github.com/Comfy-Org/comfy-kitchen          Apache-2.0
+NVIDIA CUTLASS v4.2.1       https://github.com/NVIDIA/cutlass                   BSD-3-Clause (headers, fetched at build)
+NVIDIA PyTorch container    nvcr.io/nvidia/pytorch:25.11-py3                    NVIDIA Deep Learning Container License
+PyTorch / torchaudio        https://github.com/pytorch                          BSD-3-Clause / BSD-2-Clause
+Triton                      https://github.com/triton-lang/triton               MIT
+Comfyui_Minimax_h3_latent_Upscaler (node, commit 40316cf)
+                            https://github.com/LBH-123-AI/Comfyui_Minimax_h3_latent_Upscaler   MIT
+ComfyUI-H3VAE-PyOpt (optional, patched by harness/patches/h3vae_pyopt_sm121.patch)
+                            https://github.com/fishelegs/ComfyUI-H3VAE-PyOpt    MIT
+
+The quality-evaluation harness (harness/eval_setup.sh, not needed to render) downloads tools and models with their
+own terms, some of them research / non-commercial only: InsightFace buffalo_l models, pyiqa (IQA-PyTorch), DOVER
+(its code and weights), the SyncNet and S3FD weights. Check them before any commercial use of the harness.
+
+Model weights are not included and keep their own licenses: MiniMax-H3 (MiniMax H3 Community License, see
+README.md), and the H3 latent upscaler weights (see their model card).

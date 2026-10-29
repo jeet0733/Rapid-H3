@@ -1,0 +1,4 @@
+[
+ {"id": "er11_flulp", "shot": "er11", "preset": "ts_s6", "group": "floor_ulp_fl",
+  "opts": {"quant": "bf16", "attention": "pytorch attention", "rapidh3_attn": null, "shadow": true, "shadow_sdpa": "perturb_ulp", "decode_save": ""}}
+]

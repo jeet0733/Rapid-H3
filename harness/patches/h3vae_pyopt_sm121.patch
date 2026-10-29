@@ -1,0 +1,39 @@
+diff --git a/opt/encoder_int8_integration.py b/opt/encoder_int8_integration.py
+index 3d6fdb4..984172d 100644
+--- a/opt/encoder_int8_integration.py
++++ b/opt/encoder_int8_integration.py
+@@ -68,7 +68,7 @@ def _resolve_tile_variant(
+         return str(requested)
+     # Only automatically select the new schedule on the measured architecture.
+     # Explicit tile requests and CPU-only construction retain their contract.
+-    if capability == (12, 0) and input_channels in (128, 256):
++    if capability is not None and capability[0] == 12 and input_channels in (128, 256):  # sm_120/sm_121
+         return INT8_ENCODER_POLICY["sm120_auto_tile_variant"]
+     try:
+         return INT8_ENCODER_POLICY["tile_variants_by_input_channels"][
+diff --git a/opt/int8_ffn_up_fused.py b/opt/int8_ffn_up_fused.py
+index 278f811..cd269d0 100644
+--- a/opt/int8_ffn_up_fused.py
++++ b/opt/int8_ffn_up_fused.py
+@@ -17,7 +17,7 @@ def supports_fused_ffn_up(device):
+     device = torch.device(device)
+     return (device.type == 'cuda' and torch.version.hip is None
+             and torch.cuda.is_available()
+-            and torch.cuda.get_device_capability(device) == (12, 0))
++            and torch.cuda.get_device_capability(device)[0] == 12)  # sm_120 and sm_121 (GB10)
+ 
+ 
+ def validate_prequantized(q, scale, weight, weight_scale, bias):
+diff --git a/opt/int8_norm1_quant.py b/opt/int8_norm1_quant.py
+index 8d328ee..1b9e8e7 100644
+--- a/opt/int8_norm1_quant.py
++++ b/opt/int8_norm1_quant.py
+@@ -66,7 +66,7 @@ def _device_supports_norm1_quant(index):
+                 str(torch.__version__).split("+")[0] != "2.11.0" or
+                 torch.version.cuda != "13.0"):
+             return False
+-        return torch.cuda.get_device_capability(index) == (12, 0)
++        return torch.cuda.get_device_capability(index)[0] == 12  # sm_120 and sm_121 (GB10)
+     except Exception:
+         return False
+ 

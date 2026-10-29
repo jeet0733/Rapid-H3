@@ -1,0 +1,70 @@
+[
+ {
+  "id": "q1_sh194ex2",
+  "shot": "q1",
+  "preset": "ts_s6",
+  "group": "sh194ex2",
+  "opts": {
+   "ref_images": [
+    "ref1/r1_ref.png"
+   ],
+   "ref_audios": [
+    "ref1_voice_r1.wav"
+   ],
+   "shadow": true,
+   "decode_save": "",
+   "rapidh3_attn_exact": "ref_audio,audio"
+  }
+ },
+ {
+  "id": "q1_sh194ex4",
+  "shot": "q1",
+  "preset": "ts_s6",
+  "group": "sh194ex4",
+  "opts": {
+   "ref_images": [
+    "ref1/r1_ref.png"
+   ],
+   "ref_audios": [
+    "ref1_voice_r1.wav"
+   ],
+   "shadow": true,
+   "decode_save": "",
+   "rapidh3_attn_exact": "text,ref_img,ref_audio,audio"
+  }
+ },
+ {
+  "id": "q4_sh194ex2",
+  "shot": "q4",
+  "preset": "ts_s6",
+  "group": "sh194ex2",
+  "opts": {
+   "ref_images": [
+    "ref1/r4_ref.png"
+   ],
+   "ref_audios": [
+    "ref1_voice_r4.wav"
+   ],
+   "shadow": true,
+   "decode_save": "",
+   "rapidh3_attn_exact": "ref_audio,audio"
+  }
+ },
+ {
+  "id": "q4_sh194ex4",
+  "shot": "q4",
+  "preset": "ts_s6",
+  "group": "sh194ex4",
+  "opts": {
+   "ref_images": [
+    "ref1/r4_ref.png"
+   ],
+   "ref_audios": [
+    "ref1_voice_r4.wav"
+   ],
+   "shadow": true,
+   "decode_save": "",
+   "rapidh3_attn_exact": "text,ref_img,ref_audio,audio"
+  }
+ }
+]

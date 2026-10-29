@@ -1,0 +1,318 @@
+[
+ {
+  "M": 22332,
+  "gemm": "qkv",
+  "kanthai_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_cfg": "BM: 128, BN: 128, BK: 64, G: 16, num_warps: 4, num_ctas: 1, num_stages: 4, maxnreg: None",
+  "triton_persist_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_persist_cfg": "BM: 128, BN: 256, BK: 64, G: 16, num_warps: 8, num_ctas: 1, num_stages: 4, maxnreg: None",
+  "ms": {
+   "cutlass": 25.814,
+   "kanthai": 34.743,
+   "triton": 27.865,
+   "triton_persist": 29.057,
+   "int_mm": 31.188
+  },
+  "TOPS": {
+   "cutlass": 200.0,
+   "kanthai": 148.6,
+   "triton": 185.3,
+   "triton_persist": 177.7,
+   "int_mm": 165.6
+  }
+ },
+ {
+  "M": 22332,
+  "gemm": "out_proj",
+  "kanthai_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_cfg": "BM: 128, BN: 128, BK: 64, G: 8, num_warps: 4, num_ctas: 1, num_stages: 4, maxnreg: None",
+  "split": [
+   [
+    0,
+    17866
+   ],
+   [
+    17866,
+    21216
+   ],
+   [
+    21216,
+    22332
+   ]
+  ],
+  "ms": {
+   "cutlass": 9.509,
+   "kanthai": 12.268,
+   "kanthai_gemm_only": 9.308,
+   "triton": 9.896,
+   "cutlass_split": 9.755,
+   "triton_split": 10.032,
+   "int_mm": 10.541
+  },
+  "TOPS": {
+   "cutlass": 181.0,
+   "kanthai": 140.3,
+   "kanthai_gemm_only": 184.9,
+   "triton": 173.9,
+   "cutlass_split": 176.4,
+   "triton_split": 171.6,
+   "int_mm": 163.3
+  }
+ },
+ {
+  "M": 22332,
+  "gemm": "fc1",
+  "kanthai_vs_cutlass": {
+   "equal": false,
+   "max_abs": 0.0625,
+   "n_diff": 873
+  },
+  "triton_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_cfg": "BM: 128, BN: 64, BK: 64, G: 8, num_warps: 4, num_ctas: 1, num_stages: 4, maxnreg: None",
+  "ms": {
+   "cutlass": 35.907,
+   "kanthai": 107.073,
+   "kanthai_gemm_only": 37.102,
+   "triton": 37.238,
+   "int_mm": 41.128
+  },
+  "TOPS": {
+   "cutlass": 191.7,
+   "kanthai": 64.3,
+   "kanthai_gemm_only": 185.6,
+   "triton": 184.9,
+   "int_mm": 167.4
+  }
+ },
+ {
+  "M": 22332,
+  "gemm": "fc2",
+  "kanthai_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_cfg": "BM: 128, BN: 128, BK: 64, G: 8, num_warps: 4, num_ctas: 1, num_stages: 4, maxnreg: None",
+  "split": [
+   [
+    0,
+    17866
+   ],
+   [
+    17866,
+    21216
+   ],
+   [
+    21216,
+    22332
+   ]
+  ],
+  "ms": {
+   "cutlass": 21.126,
+   "kanthai": 23.024,
+   "kanthai_gemm_only": 19.819,
+   "triton": 20.525,
+   "cutlass_split": 21.942,
+   "triton_split": 21.285,
+   "int_mm": 23.155
+  },
+  "TOPS": {
+   "cutlass": 162.9,
+   "kanthai": 149.5,
+   "kanthai_gemm_only": 173.7,
+   "triton": 167.7,
+   "cutlass_split": 156.9,
+   "triton_split": 161.7,
+   "int_mm": 148.7
+  }
+ },
+ {
+  "M": 44992,
+  "gemm": "qkv",
+  "kanthai_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_cfg": "BM: 128, BN: 128, BK: 64, G: 16, num_warps: 8, num_ctas: 1, num_stages: 4, maxnreg: None",
+  "triton_persist_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_persist_cfg": "BM: 128, BN: 256, BK: 64, G: 16, num_warps: 8, num_ctas: 1, num_stages: 3, maxnreg: None",
+  "ms": {
+   "cutlass": 50.543,
+   "kanthai": 54.318,
+   "triton": 54.573,
+   "triton_persist": 59.079,
+   "int_mm": 62.89
+  },
+  "TOPS": {
+   "cutlass": 205.8,
+   "kanthai": 191.5,
+   "triton": 190.6,
+   "triton_persist": 176.1,
+   "int_mm": 165.4
+  }
+ },
+ {
+  "M": 44992,
+  "gemm": "out_proj",
+  "kanthai_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_cfg": "BM: 128, BN: 128, BK: 64, G: 8, num_warps: 8, num_ctas: 1, num_stages: 4, maxnreg: None",
+  "split": [
+   [
+    0,
+    35994
+   ],
+   [
+    35994,
+    42743
+   ],
+   [
+    42743,
+    44992
+   ]
+  ],
+  "ms": {
+   "cutlass": 17.843,
+   "kanthai": 24.681,
+   "kanthai_gemm_only": 18.551,
+   "triton": 19.791,
+   "cutlass_split": 18.34,
+   "triton_split": 20.056,
+   "int_mm": 20.98
+  },
+  "TOPS": {
+   "cutlass": 194.3,
+   "kanthai": 140.5,
+   "kanthai_gemm_only": 186.9,
+   "triton": 175.2,
+   "cutlass_split": 189.1,
+   "triton_split": 172.9,
+   "int_mm": 165.3
+  }
+ },
+ {
+  "M": 44992,
+  "gemm": "fc1",
+  "kanthai_vs_cutlass": {
+   "equal": false,
+   "max_abs": 0.0625,
+   "n_diff": 1719
+  },
+  "triton_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_cfg": "BM: 128, BN: 64, BK: 64, G: 8, num_warps: 4, num_ctas: 1, num_stages: 4, maxnreg: None",
+  "ms": {
+   "cutlass": 71.966,
+   "kanthai": 216.954,
+   "kanthai_gemm_only": 74.546,
+   "triton": 75.347,
+   "int_mm": 82.406
+  },
+  "TOPS": {
+   "cutlass": 192.7,
+   "kanthai": 63.9,
+   "kanthai_gemm_only": 186.1,
+   "triton": 184.1,
+   "int_mm": 168.3
+  }
+ },
+ {
+  "M": 44992,
+  "gemm": "fc2",
+  "kanthai_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_vs_cutlass": {
+   "equal": true,
+   "max_abs": 0.0,
+   "n_diff": 0
+  },
+  "triton_cfg": "BM: 128, BN: 128, BK: 64, G: 8, num_warps: 4, num_ctas: 1, num_stages: 4, maxnreg: None",
+  "split": [
+   [
+    0,
+    35994
+   ],
+   [
+    35994,
+    42743
+   ],
+   [
+    42743,
+    44992
+   ]
+  ],
+  "ms": {
+   "cutlass": 38.805,
+   "kanthai": 45.607,
+   "kanthai_gemm_only": 39.152,
+   "triton": 40.892,
+   "cutlass_split": 38.955,
+   "triton_split": 40.781,
+   "int_mm": 41.344
+  },
+  "TOPS": {
+   "cutlass": 178.7,
+   "kanthai": 152.1,
+   "kanthai_gemm_only": 177.1,
+   "triton": 169.6,
+   "cutlass_split": 178.0,
+   "triton_split": 170.1,
+   "int_mm": 167.7
+  }
+ }
+]

@@ -1,0 +1,5 @@
+[
+ {"id": "q7_s10", "shot": "q7", "preset": "ts_s6", "opts": {"ref_images": ["eval_x5.png"], "ref_audios": ["ref1_voice_r4.wav"], "steps": 10}},
+ {"id": "q7_bf6", "shot": "q7", "preset": "ts_s6", "opts": {"ref_images": ["eval_x5.png"], "ref_audios": ["ref1_voice_r4.wav"], "quant": "bf16", "attention": "pytorch attention", "rapidh3_attn": null}},
+ {"id": "q8_s6half", "shot": "q8", "preset": "ts_s6", "opts": {"ref_videos": ["ref2_er41_5s_half.mp4"]}}
+]

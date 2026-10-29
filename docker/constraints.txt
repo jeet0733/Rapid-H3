@@ -1,0 +1,29 @@
+# Versions for the dependencies of ComfyUI's requirements.txt that it leaves unpinned (or that the
+# NGC base has older), frozen at the set the image was validated with: an unpinned build picks up
+# newer av (its bundled FFmpeg encodes the mp4s), transformers, huggingface_hub etc.
+# Review when changing COMFYUI_REF. The torch stack is pinned separately, from the base image.
+alembic==1.20.0
+annotated-doc==0.0.5
+av==18.1.0
+blake3==1.0.9
+click==8.5.0
+comfy-angle==0.1.1
+greenlet==3.5.6
+hf-xet==1.6.0
+huggingface_hub==1.32.0
+kornia==0.8.3
+kornia_rs==0.1.14
+Mako==1.4.1
+pydantic-settings==2.15.0
+PyOpenGL==3.1.10
+python-dotenv==1.2.3
+safetensors==0.8.0
+sentencepiece==0.2.2
+simpleeval==1.0.8
+spandrel==0.4.2
+SQLAlchemy==2.0.54
+tokenizers==0.23.2
+torchsde==0.2.6
+trampoline==0.1.2
+transformers==5.17.0
+typer==0.27.2

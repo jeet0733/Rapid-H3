@@ -1,0 +1,10 @@
+.env
+.venv
+.DS_Store
+__pycache__
+*.mp4
+
+data/
+# sources fetched by docker/fetch_sources.sh
+docker/comfyui-src/
+docker/audio-src/

@@ -1,0 +1,579 @@
+{
+ "candidate": 34,
+ "date": "2026-10-26",
+ "box": "DGX Spark (GB10)",
+ "node": "ComfyUI-H3VAE-PyOpt 5face96 + harness/patches/h3vae_pyopt_sm121.patch",
+ "env": "ComfyUI 0.39 base image, torch 2.10 nv25.11, Triton 3.7.1 (--target), comfy-kitchen 0.2.34 only for pyopt_int8",
+ "latents": {
+  "er41": "warm/er41_h2 (768x1344)",
+  "ef31": "feat1/ef31_s6 (1344x768)",
+  "er11": "draft4/er11_h2 (1344x768)"
+ },
+ "decode_s": [
+  {
+   "variant": "int8",
+   "latent": "er41.latent",
+   "times_s": [
+    35.269,
+    21.062,
+    21.186
+   ],
+   "peak_gb": 12.45
+  },
+  {
+   "variant": "int8",
+   "latent": "ef31.latent",
+   "times_s": [
+    41.138,
+    21.13,
+    21.277
+   ],
+   "peak_gb": 12.45
+  },
+  {
+   "variant": "int8",
+   "latent": "er11.latent",
+   "times_s": [
+    38.002,
+    21.146,
+    21.389
+   ],
+   "peak_gb": 12.45
+  },
+  {
+   "variant": "fp16",
+   "latent": "er41.latent",
+   "times_s": [
+    37.582,
+    36.515,
+    36.598
+   ],
+   "peak_gb": 5.51
+  },
+  {
+   "variant": "fp16",
+   "latent": "ef31.latent",
+   "times_s": [
+    37.705,
+    36.557,
+    36.613
+   ],
+   "peak_gb": 5.52
+  },
+  {
+   "variant": "fp16",
+   "latent": "er11.latent",
+   "times_s": [
+    37.814,
+    36.69,
+    36.728
+   ],
+   "peak_gb": 5.52
+  },
+  {
+   "variant": "pyopt",
+   "latent": "er41.latent",
+   "times_s": [
+    53.92,
+    32.111,
+    32.184
+   ],
+   "peak_gb": 10.59
+  },
+  {
+   "variant": "pyopt",
+   "latent": "ef31.latent",
+   "times_s": [
+    35.982,
+    31.831,
+    31.892
+   ],
+   "peak_gb": 10.59
+  },
+  {
+   "variant": "pyopt",
+   "latent": "er11.latent",
+   "times_s": [
+    39.096,
+    31.849,
+    31.988
+   ],
+   "peak_gb": 10.59
+  },
+  {
+   "variant": "pyopt_int8",
+   "latent": "er41.latent",
+   "times_s": [
+    42.742,
+    26.898,
+    26.913
+   ],
+   "peak_gb": 8.91
+  },
+  {
+   "variant": "pyopt_int8",
+   "latent": "ef31.latent",
+   "times_s": [
+    32.169,
+    26.965,
+    27.02
+   ],
+   "peak_gb": 8.91
+  },
+  {
+   "variant": "pyopt_int8",
+   "latent": "er11.latent",
+   "times_s": [
+    33.321,
+    27.027,
+    27.044
+   ],
+   "peak_gb": 8.91
+  },
+  {
+   "variant": "pyopt_int8",
+   "latent": "er41.latent",
+   "times_s": [
+    36.649,
+    20.861,
+    20.991
+   ],
+   "peak_gb": 7.18,
+   "note": "decode_fusions, tile_batch 4"
+  },
+  {
+   "variant": "pyopt",
+   "latent": "er41.latent",
+   "times_s": [
+    65.211,
+    29.445,
+    29.679
+   ],
+   "peak_gb": 7.34,
+   "note": "decode_fusions, tile_batch 8"
+  },
+  {
+   "variant": "fp32",
+   "latent": "er41.latent",
+   "times_s": [
+    104.158
+   ],
+   "peak_gb": 10.98
+  }
+ ],
+ "compare": [
+  {
+   "latent": "er41",
+   "variant": "int8",
+   "ref": "fp16",
+   "psnr_mean": 60.62,
+   "psnr_global": 60.58,
+   "psnr_min": 59.62,
+   "psnr_min_frame": 34,
+   "psnr8_mean": 56.73,
+   "psnr8_min": 56.2,
+   "ssim_mean": 0.99985,
+   "ssim_min": 0.99981,
+   "maxabs": 0.0696
+  },
+  {
+   "latent": "er41",
+   "variant": "pyopt",
+   "ref": "fp16",
+   "psnr_mean": 51.58,
+   "psnr_global": 51.54,
+   "psnr_min": 50.35,
+   "psnr_min_frame": 72,
+   "psnr8_mean": 51.18,
+   "psnr8_min": 50.05,
+   "ssim_mean": 0.99914,
+   "ssim_min": 0.99888,
+   "maxabs": 0.2986
+  },
+  {
+   "latent": "er41",
+   "variant": "pyopt_int8",
+   "ref": "fp16",
+   "psnr_mean": 48.04,
+   "psnr_global": 48.02,
+   "psnr_min": 47.33,
+   "psnr_min_frame": 75,
+   "psnr8_mean": 47.4,
+   "psnr8_min": 46.79,
+   "ssim_mean": 0.99774,
+   "ssim_min": 0.99742,
+   "maxabs": 0.31
+  },
+  {
+   "latent": "er41",
+   "variant": "fp16",
+   "ref": "int8",
+   "psnr_mean": 60.62,
+   "psnr_global": 60.58,
+   "psnr_min": 59.62,
+   "psnr_min_frame": 34,
+   "psnr8_mean": 56.73,
+   "psnr8_min": 56.2,
+   "ssim_mean": 0.99985,
+   "ssim_min": 0.99981,
+   "maxabs": 0.0696
+  },
+  {
+   "latent": "er41",
+   "variant": "pyopt",
+   "ref": "int8",
+   "psnr_mean": 51.09,
+   "psnr_global": 51.06,
+   "psnr_min": 50.03,
+   "psnr_min_frame": 48,
+   "psnr8_mean": 50.36,
+   "psnr8_min": 49.43,
+   "ssim_mean": 0.999,
+   "ssim_min": 0.99873,
+   "maxabs": 0.302
+  },
+  {
+   "latent": "er41",
+   "variant": "pyopt_int8",
+   "ref": "int8",
+   "psnr_mean": 47.84,
+   "psnr_global": 47.82,
+   "psnr_min": 47.14,
+   "psnr_min_frame": 75,
+   "psnr8_mean": 47.23,
+   "psnr8_min": 46.62,
+   "ssim_mean": 0.99762,
+   "ssim_min": 0.99728,
+   "maxabs": 0.307
+  },
+  {
+   "latent": "ef31",
+   "variant": "int8",
+   "ref": "fp16",
+   "psnr_mean": 61.09,
+   "psnr_global": 61.06,
+   "psnr_min": 60.37,
+   "psnr_min_frame": 68,
+   "psnr8_mean": 56.82,
+   "psnr8_min": 56.47,
+   "ssim_mean": 0.99988,
+   "ssim_min": 0.99986,
+   "maxabs": 0.0957
+  },
+  {
+   "latent": "ef31",
+   "variant": "pyopt",
+   "ref": "fp16",
+   "psnr_mean": 51.92,
+   "psnr_global": 51.9,
+   "psnr_min": 50.91,
+   "psnr_min_frame": 85,
+   "psnr8_mean": 51.52,
+   "psnr8_min": 50.58,
+   "ssim_mean": 0.99937,
+   "ssim_min": 0.99927,
+   "maxabs": 0.5501
+  },
+  {
+   "latent": "ef31",
+   "variant": "pyopt_int8",
+   "ref": "fp16",
+   "psnr_mean": 47.93,
+   "psnr_global": 47.92,
+   "psnr_min": 47.15,
+   "psnr_min_frame": 140,
+   "psnr8_mean": 47.31,
+   "psnr8_min": 46.62,
+   "ssim_mean": 0.99773,
+   "ssim_min": 0.99746,
+   "maxabs": 0.5457
+  },
+  {
+   "latent": "ef31",
+   "variant": "fp16",
+   "ref": "int8",
+   "psnr_mean": 61.09,
+   "psnr_global": 61.06,
+   "psnr_min": 60.37,
+   "psnr_min_frame": 68,
+   "psnr8_mean": 56.82,
+   "psnr8_min": 56.47,
+   "ssim_mean": 0.99988,
+   "ssim_min": 0.99986,
+   "maxabs": 0.0957
+  },
+  {
+   "latent": "ef31",
+   "variant": "pyopt",
+   "ref": "int8",
+   "psnr_mean": 51.43,
+   "psnr_global": 51.41,
+   "psnr_min": 50.48,
+   "psnr_min_frame": 85,
+   "psnr8_mean": 50.63,
+   "psnr8_min": 49.82,
+   "ssim_mean": 0.99925,
+   "ssim_min": 0.99915,
+   "maxabs": 0.5514
+  },
+  {
+   "latent": "ef31",
+   "variant": "pyopt_int8",
+   "ref": "int8",
+   "psnr_mean": 47.76,
+   "psnr_global": 47.75,
+   "psnr_min": 46.97,
+   "psnr_min_frame": 140,
+   "psnr8_mean": 47.16,
+   "psnr8_min": 46.46,
+   "ssim_mean": 0.99764,
+   "ssim_min": 0.99734,
+   "maxabs": 0.5469
+  },
+  {
+   "latent": "er11",
+   "variant": "int8",
+   "ref": "fp16",
+   "psnr_mean": 61.89,
+   "psnr_global": 61.86,
+   "psnr_min": 61.16,
+   "psnr_min_frame": 111,
+   "psnr8_mean": 57.12,
+   "psnr8_min": 56.77,
+   "ssim_mean": 0.99988,
+   "ssim_min": 0.99986,
+   "maxabs": 0.0643
+  },
+  {
+   "latent": "er11",
+   "variant": "pyopt",
+   "ref": "fp16",
+   "psnr_mean": 52.87,
+   "psnr_global": 52.84,
+   "psnr_min": 50.92,
+   "psnr_min_frame": 24,
+   "psnr8_mean": 52.36,
+   "psnr8_min": 50.58,
+   "ssim_mean": 0.99944,
+   "ssim_min": 0.9993,
+   "maxabs": 0.3848
+  },
+  {
+   "latent": "er11",
+   "variant": "pyopt_int8",
+   "ref": "fp16",
+   "psnr_mean": 49.15,
+   "psnr_global": 49.14,
+   "psnr_min": 48.12,
+   "psnr_min_frame": 140,
+   "psnr8_mean": 48.34,
+   "psnr8_min": 47.47,
+   "ssim_mean": 0.99846,
+   "ssim_min": 0.99826,
+   "maxabs": 0.3882
+  },
+  {
+   "latent": "er11",
+   "variant": "fp16",
+   "ref": "int8",
+   "psnr_mean": 61.89,
+   "psnr_global": 61.86,
+   "psnr_min": 61.16,
+   "psnr_min_frame": 111,
+   "psnr8_mean": 57.12,
+   "psnr8_min": 56.77,
+   "ssim_mean": 0.99988,
+   "ssim_min": 0.99986,
+   "maxabs": 0.0643
+  },
+  {
+   "latent": "er11",
+   "variant": "pyopt",
+   "ref": "int8",
+   "psnr_mean": 52.36,
+   "psnr_global": 52.33,
+   "psnr_min": 50.54,
+   "psnr_min_frame": 24,
+   "psnr8_mean": 51.38,
+   "psnr8_min": 49.87,
+   "ssim_mean": 0.99933,
+   "ssim_min": 0.99917,
+   "maxabs": 0.3843
+  },
+  {
+   "latent": "er11",
+   "variant": "pyopt_int8",
+   "ref": "int8",
+   "psnr_mean": 48.98,
+   "psnr_global": 48.97,
+   "psnr_min": 47.95,
+   "psnr_min_frame": 140,
+   "psnr8_mean": 48.2,
+   "psnr8_min": 47.32,
+   "ssim_mean": 0.99837,
+   "ssim_min": 0.99816,
+   "maxabs": 0.3878
+  },
+  {
+   "latent": "er41",
+   "variant": "pyoptf",
+   "ref": "fp16",
+   "psnr_mean": 51.58,
+   "psnr_global": 51.54,
+   "psnr_min": 50.35,
+   "psnr_min_frame": 72,
+   "psnr8_mean": 51.18,
+   "psnr8_min": 50.05,
+   "ssim_mean": 0.99914,
+   "ssim_min": 0.99888,
+   "maxabs": 0.2986
+  },
+  {
+   "latent": "er41",
+   "variant": "pyopt_int8f",
+   "ref": "fp16",
+   "psnr_mean": 47.54,
+   "psnr_global": 47.53,
+   "psnr_min": 46.82,
+   "psnr_min_frame": 75,
+   "psnr8_mean": 46.97,
+   "psnr8_min": 46.34,
+   "ssim_mean": 0.99744,
+   "ssim_min": 0.99709,
+   "maxabs": 0.2979
+  },
+  {
+   "latent": "er41",
+   "variant": "pyoptf",
+   "ref": "int8",
+   "psnr_mean": 51.09,
+   "psnr_global": 51.06,
+   "psnr_min": 50.03,
+   "psnr_min_frame": 48,
+   "psnr8_mean": 50.36,
+   "psnr8_min": 49.44,
+   "ssim_mean": 0.999,
+   "ssim_min": 0.99873,
+   "maxabs": 0.302
+  },
+  {
+   "latent": "er41",
+   "variant": "pyopt_int8f",
+   "ref": "int8",
+   "psnr_mean": 47.36,
+   "psnr_global": 47.35,
+   "psnr_min": 46.65,
+   "psnr_min_frame": 75,
+   "psnr8_mean": 46.81,
+   "psnr8_min": 46.18,
+   "ssim_mean": 0.99732,
+   "ssim_min": 0.99693,
+   "maxabs": 0.2949
+  },
+  {
+   "latent": "er41",
+   "variant": "int8",
+   "ref": "fp32",
+   "psnr_mean": 60.37,
+   "psnr_global": 60.33,
+   "psnr_min": 59.44,
+   "psnr_min_frame": 119,
+   "psnr8_mean": 56.49,
+   "psnr8_min": 56.01,
+   "ssim_mean": 0.99984,
+   "ssim_min": 0.9998,
+   "maxabs": 0.0634
+  },
+  {
+   "latent": "er41",
+   "variant": "fp16",
+   "ref": "fp32",
+   "psnr_mean": 71.2,
+   "psnr_global": 71.18,
+   "psnr_min": 69.93,
+   "psnr_min_frame": 18,
+   "psnr8_mean": 61.71,
+   "psnr8_min": 61.17,
+   "ssim_mean": 0.99998,
+   "ssim_min": 0.99997,
+   "maxabs": 0.0413
+  },
+  {
+   "latent": "er41",
+   "variant": "pyopt",
+   "ref": "fp32",
+   "psnr_mean": 51.55,
+   "psnr_global": 51.51,
+   "psnr_min": 50.32,
+   "psnr_min_frame": 72,
+   "psnr8_mean": 51.1,
+   "psnr8_min": 49.97,
+   "ssim_mean": 0.99913,
+   "ssim_min": 0.99888,
+   "maxabs": 0.2985
+  },
+  {
+   "latent": "er41",
+   "variant": "pyopt_int8",
+   "ref": "fp32",
+   "psnr_mean": 48.02,
+   "psnr_global": 48.01,
+   "psnr_min": 47.32,
+   "psnr_min_frame": 75,
+   "psnr8_mean": 47.39,
+   "psnr8_min": 46.78,
+   "ssim_mean": 0.99776,
+   "ssim_min": 0.99743,
+   "maxabs": 0.3107
+  },
+  {
+   "latent": "er41",
+   "variant": "pyoptf",
+   "ref": "fp32",
+   "psnr_mean": 51.55,
+   "psnr_global": 51.51,
+   "psnr_min": 50.32,
+   "psnr_min_frame": 72,
+   "psnr8_mean": 51.1,
+   "psnr8_min": 49.97,
+   "ssim_mean": 0.99913,
+   "ssim_min": 0.99888,
+   "maxabs": 0.2985
+  },
+  {
+   "latent": "er41",
+   "variant": "pyopt_int8f",
+   "ref": "fp32",
+   "psnr_mean": 47.53,
+   "psnr_global": 47.51,
+   "psnr_min": 46.81,
+   "psnr_min_frame": 75,
+   "psnr8_mean": 46.96,
+   "psnr8_min": 46.33,
+   "ssim_mean": 0.99746,
+   "ssim_min": 0.99711,
+   "maxabs": 0.2986
+  }
+ ],
+ "e2e_ef41_ts_h2": {
+  "ref9 (int8 vae, overlap)": {
+   "wall_s": 124.8,
+   "decode_s": 21.46,
+   "post_s": 23.4
+  },
+  "py8 (pyopt fp16, overlap falls back)": {
+   "wall_s": 137.8,
+   "decode_s": 32.83,
+   "post_s": 36.5
+  },
+  "py first call (compile, sampling cached)": {
+   "wall_s": 70.8,
+   "decode_s": 50.82
+  },
+  "mp4 ef41_py vs ef41_ref (same latent) ffmpeg psnr": {
+   "y": 45.81,
+   "avg": 47.13,
+   "min": 46.3
+  }
+ }
+}

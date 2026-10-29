@@ -1,0 +1,8 @@
+[
+ {"id": "q1_flulp", "shot": "q1", "preset": "ts_s6", "group": "floor_ulp",
+  "opts": {"ref_images": ["ref1/r1_ref.png"], "ref_audios": ["ref1_voice_r1.wav"], "quant": "bf16", "attention": "pytorch attention", "rapidh3_attn": null, "shadow": true, "shadow_sdpa": "perturb_ulp", "decode_save": ""}},
+ {"id": "q4_flulp", "shot": "q4", "preset": "ts_s6", "group": "floor_ulp",
+  "opts": {"ref_images": ["ref1/r4_ref.png"], "ref_audios": ["ref1_voice_r4.wav"], "quant": "bf16", "attention": "pytorch attention", "rapidh3_attn": null, "shadow": true, "shadow_sdpa": "perturb_ulp", "decode_save": ""}},
+ {"id": "q1_fleff", "shot": "q1", "preset": "ts_s6", "group": "floor_eff",
+  "opts": {"ref_images": ["ref1/r1_ref.png"], "ref_audios": ["ref1_voice_r1.wav"], "quant": "bf16", "attention": "pytorch attention", "rapidh3_attn": null, "shadow": true, "shadow_sdpa": "efficient", "decode_save": ""}}
+]

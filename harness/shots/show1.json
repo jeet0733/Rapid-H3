@@ -1,0 +1,98 @@
+[
+ {
+  "id": "r1",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, natural film look, shallow depth of field. A fisherman in his sixties with a weathered sunburnt face, white stubble and a faded blue knit cap sits on an upturned crate on a wooden pier at golden hour, mending a net with rough hands. Gulls drift behind him over calm water. Timeline: [0s-5.9s] He looks up from the net toward the camera, smiles slightly and speaks. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: he says in a low, gravelly, unhurried voice: \"The sea gives you what she wants, not what you ask for.\" Soft lapping water, distant gulls. No music.",
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7
+ },
+ {
+  "id": "r2",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, natural daylight. A young woman in her mid-twenties with curly dark hair tied up, light freckles, wearing a mustard raincoat, stands on a busy city sidewalk in light rain, holding a paper coffee cup. Blurred pedestrians and yellow taxis pass behind her. Timeline: [0s-5.9s] She glances at her phone, then looks straight at the camera and talks, a little out of breath. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: she says quickly, in a bright, slightly breathless voice: \"I'm late again, but honestly, this coffee was worth it.\" Rain patter, city traffic hum, footsteps. No music.",
+  "width": 768,
+  "height": 1344,
+  "length": 141,
+  "seed": 7
+ },
+ {
+  "id": "r3",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, warm tungsten interior light, cinematic. An elderly chef with a neat grey moustache and a white chef's jacket stands at a steel counter in a busy restaurant kitchen, a copper pan sizzling on the stove beside him, steam rising. Kitchen staff move softly out of focus behind him. Timeline: [0s-5.9s] He tosses the pan once, sets it down, and speaks to the camera with a proud smile. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: he says warmly, with a slight Italian accent: \"Butter, garlic, patience. That is the whole secret.\" Sizzling pan, clinking plates, soft kitchen chatter. No music.",
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7
+ },
+ {
+  "id": "r4",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, soft overcast window light, intimate close-up. A man in his forties with short greying hair, a trimmed beard and kind tired eyes, wearing a dark grey sweater, sits by a rainy window in a quiet living room. Timeline: [0s-5.9s] He takes a breath, looks into the camera and speaks gently. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: he says softly, in a calm, sincere voice: \"I kept every letter you wrote. Every single one.\" Rain against the glass, quiet room tone. No music.",
+  "width": 768,
+  "height": 1344,
+  "length": 141,
+  "seed": 7
+ },
+ {
+  "id": "r5",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, bright midday sun, wide shot. A park ranger in her thirties with a sun hat, khaki uniform and a radio on her shoulder stands on a red-rock canyon overlook, wind moving her hair, a vast canyon behind her. Timeline: [0s-5.9s] She points out over the canyon, then turns back to the camera and speaks. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: she says clearly, in a friendly, confident voice: \"Stay on the trail, drink water, and watch for rattlesnakes.\" Wind gusts, distant hawk cry. No music.",
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7
+ },
+ {
+  "id": "r6",
+  "prompt": "Single continuous unbroken shot, no cuts. Photorealistic, evening, warm street lights, cinematic. Two old friends in their seventies sit at a small round table outside a corner cafe, one in a tweed flat cap, the other with round glasses, a chessboard between them and two espresso cups. Timeline: [0s-5.9s] The man in the flat cap moves a knight, leans back and grins at his friend. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: the man in the flat cap says with a playful, raspy voice: \"Check. You never see the horse coming, do you?\" Soft street ambience, a cup clinks on a saucer. No music.",
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7
+ },
+ {
+  "id": "f1",
+  "prompt": "Single continuous unbroken shot, no cuts. Cinematic science fiction, photorealistic, cool blue and amber lighting. A female starship captain in her forties with short silver hair and a dark navy uniform with a gold insignia stands on the bridge of a spaceship, a huge window behind her showing a ringed gas giant and stars. Holographic displays glow at her sides. Timeline: [0s-5.9s] She turns from the window toward the camera and gives an order. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: she says firmly, in a calm, commanding voice: \"Set course for the outer ring. We go in quiet.\" Low engine hum, soft computer chirps. No music.",
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7
+ },
+ {
+  "id": "f2",
+  "prompt": "Single continuous unbroken shot, no cuts. Cinematic science fiction, photorealistic, neon-lit rainy night. A young man with a shaved head and a thin glowing cybernetic line along his jaw, wearing a black high-collar jacket, stands in a narrow alley under pink and cyan neon signs, rain dripping. Timeline: [0s-5.9s] He looks over his shoulder, then leans toward the camera and whispers urgently. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: he whispers urgently, in a low tense voice: \"They tracked the signal. We have maybe two minutes.\" Rain, buzzing neon, a distant siren. No music.",
+  "width": 768,
+  "height": 1344,
+  "length": 141,
+  "seed": 7
+ },
+ {
+  "id": "f3",
+  "prompt": "Single continuous unbroken shot, no cuts. Cinematic science fiction, photorealistic, harsh white light. An astronaut in her thirties in a white spacesuit without a helmet, dark hair pinned back, stands inside a bright lunar base module, the grey lunar surface and black sky visible through a round porthole behind her. Timeline: [0s-5.9s] She checks a display on her wrist, then looks into the camera and reports. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: she says clearly, in a steady, professional voice: \"Oxygen levels nominal. Day forty-one on the surface.\" Air recyclers humming, soft beeps. No music.",
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7
+ },
+ {
+  "id": "f4",
+  "prompt": "Single continuous unbroken shot, no cuts. Cinematic science fiction, photorealistic, soft clinical light. A humanoid android with a smooth pale porcelain face, subtle seams along its cheeks, calm glass-blue eyes and a grey high-collared tunic stands in a minimalist white laboratory. Timeline: [0s-5.9s] It blinks slowly, tilts its head slightly and speaks to the camera. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: it says in a calm, gentle, slightly synthetic voice: \"I have read every book you own. May I ask a question?\" Quiet lab hum. No music.",
+  "width": 768,
+  "height": 1344,
+  "length": 141,
+  "seed": 7
+ },
+ {
+  "id": "f5",
+  "prompt": "Single continuous unbroken shot, no cuts. Cinematic science fiction, photorealistic, dusty red light. A weathered colonist in his fifties with a dusty beard, goggles pushed up on his forehead and a patched orange pressure suit stands outside a small habitat dome on Mars, red dunes and a pale pink sky behind him. Timeline: [0s-5.9s] He wipes dust from his sleeve, looks at the camera and speaks with a tired smile. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: he says in a dry, tired, good-humoured voice: \"Third dust storm this week. The tomatoes are still alive.\" Wind and blowing sand. No music.",
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7
+ },
+ {
+  "id": "f6",
+  "prompt": "Single continuous unbroken shot, no cuts. Cinematic science fiction, photorealistic, moody green console light. A pilot in her twenties with a buzz cut, a scar across one eyebrow and a worn flight jacket sits in the cramped cockpit of a small cargo ship, stars streaking past the canopy. Timeline: [0s-5.9s] She grips the throttle, glances at the camera and speaks with a grin. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: she says confidently, with a grin in her voice: \"Hold on to something. This part gets bumpy.\" Rumbling engines, rattling cockpit, a warning beep. No music.",
+  "width": 1344,
+  "height": 768,
+  "length": 141,
+  "seed": 7
+ }
+]
