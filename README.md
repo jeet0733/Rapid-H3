@@ -79,35 +79,35 @@ Single continuous unbroken shot, no cuts. Cinematic science fiction, photorealis
 
 All numbers: DGX Spark, 141 frames (times: 2026-10-29, `runs/2026-10-29/quantizer/`) (≈5.9 s), first frame + prompt, speech in every clip, models kept loaded. Same seed does not give the same picture as stock (any 8-bit change lands on a different, equally plausible clip), so quality is compared as statistics over shot sets.
 
-| | Stock bf16, 10 steps | **`ts_h2`** (default) | **`ts_s6`** (motion, close-ups) |
+| | Stock bf16, 10 steps | **`ts_s6`** (motion, close-ups) | **`ts_h2`** (default) |
 |---|---|---|---|
 | **Speed** (768×1344, warm server) | | | |
-| Steps | 10 at full size | 6 at 0.7× size + 1 at full size | 6 at full size |
-| s / step (draft / full size) | — / 56.7 | 10.2 / 28.7–28.8 | — / 28.3–28.7 |
-| **Time per clip** | **590–630 s** | **≈114 s** (warm, 5 shots: 114.3–115.5 s, median 114.4 s) | **≈194 s** (warm, 5 shots: 193.5–194.6 s, median 193.7 s) |
-| Speed-up | 1.0× | ≈5× | ≈3× |
+| Steps | 10 at full size | 6 at full size | 6 at 0.7× size + 1 at full size |
+| s / step (draft / full size) | — / 56.7 | — / 28.3–28.7 | 10.2 / 28.7–28.8 |
+| **Time per clip** | **590–630 s** | **≈194 s** (warm, 5 shots: 193.5–194.6 s, median 193.7 s) | **≈114 s** (warm, 5 shots: 114.3–115.5 s, median 114.4 s) |
+| Speed-up | 1.0× | ≈3× | ≈5× |
 | **Motion set** (16 clips: 8 shots × 2 seeds; camera push-ins, close-up faces) | | | |
-| Camera push-ins completed | 16/16 | 13/16 | **16/16** |
-| Motion (optical flow vs stock) | ×1.00 | ×0.88 | ×0.95 |
-| Jerkiness (frame-to-frame acceleration, lower is smoother) | 0.48 | 0.63 | 0.50 |
-| Identity (ArcFace vs reference face) | 0.794 | 0.802 | 0.814 |
-| Lip sync (SyncNet LSE-C on speech, higher is better) | 9.77 | 9.53 | 9.97 |
-| Close-up face sharpness | 644 | 566 (×0.88) | 613 (×0.95) |
-| Flicker (shimmer on still pixels, 8-bit levels) | 0.437 | 0.456 | 0.467 |
-| Overall video quality (DOVER) | 0.769 | 0.748 | 0.757 |
-| Voice naturalness (UTMOS) | 3.94 | 3.84 | 3.93 |
+| Camera push-ins completed | 16/16 | **16/16** | 13/16 |
+| Motion (optical flow vs stock) | ×1.00 | ×0.95 | ×0.88 |
+| Jerkiness (frame-to-frame acceleration, lower is smoother) | 0.48 | 0.50 | 0.63 |
+| Identity (ArcFace vs reference face) | 0.794 | 0.814 | 0.802 |
+| Lip sync (SyncNet LSE-C on speech, higher is better) | 9.77 | 9.97 | 9.53 |
+| Close-up face sharpness | 644 | 613 (×0.95) | 566 (×0.88) |
+| Flicker (shimmer on still pixels, 8-bit levels) | 0.437 | 0.467 | 0.456 |
+| Overall video quality (DOVER) | 0.769 | 0.757 | 0.748 |
+| Voice naturalness (UTMOS) | 3.94 | 3.93 | 3.84 |
 | **Dialogue set `eval1`** (15 shots: 5 characters × 3 lines; ts_s6 not run on it) | | | |
-| Identity (ArcFace vs reference face) | 0.776 | 0.767 | — |
-| Identity drift (worst frame vs first) | 0.711 | 0.709 | — |
-| Lip sync (LSE-C on speech) | 7.71 | 7.22 | — |
-| Dialogue word error (vs the scripted line) | 0.6 % | 0.6 % | — |
-| Reference fidelity (first-frame SSIM) | 0.970 | 0.968 | — |
-| Prompt match (CLIP score) | 30.6 | 30.5 | — |
-| Camera push-ins completed | 15/15 | 12/15 | — |
-| Motion (optical flow vs stock) | ×1.00 | ×0.86 | — |
-| Face sharpness | 555 | ×0.92 | — |
-| Flicker | 0.349 | ×1.18 | — |
-| Voice naturalness (UTMOS) | 3.85 | 3.72 | — |
+| Identity (ArcFace vs reference face) | 0.776 | — | 0.767 |
+| Identity drift (worst frame vs first) | 0.711 | — | 0.709 |
+| Lip sync (LSE-C on speech) | 7.71 | — | 7.22 |
+| Dialogue word error (vs the scripted line) | 0.6 % | — | 0.6 % |
+| Reference fidelity (first-frame SSIM) | 0.970 | — | 0.968 |
+| Prompt match (CLIP score) | 30.6 | — | 30.5 |
+| Camera push-ins completed | 15/15 | — | 12/15 |
+| Motion (optical flow vs stock) | ×1.00 | — | ×0.86 |
+| Face sharpness | 555 | — | ×0.92 |
+| Flicker | 0.349 | — | ×1.18 |
+| Voice naturalness (UTMOS) | 3.85 | — | 3.72 |
 
 How to read it: `ts_s6` is at stock level on every criterion. `ts_h2` matches stock on identity, dialogue, reference fidelity and prompt, and gives up some camera motion (push-ins mis-scaled on about 1 clip in 5), close-up face detail and a little lip-sync confidence on small faces. Flicker differences of this size (a tenth of one 8-bit level) were not visible in side-by-side review. The motion-set numbers were measured with the settings before 2026-10-26; the later speed-ups were checked to stay within run-to-run noise (encode once on the 15-shot set, INT8 attention on the screening shots, the INT8 text encoder on screening renders and a side-by-side review) or are bit-identical (decoder level 3 → 4, attention config 194 → 190, the Docker image). The evaluation shots' first-frame images are not in the repository; `harness/eval_clips.py` and `harness/audio_quality.py` re-run the scoring on your own clips.
 
