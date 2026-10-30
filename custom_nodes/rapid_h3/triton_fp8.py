@@ -194,23 +194,231 @@ def _rot_quant_kernel(x_ptr, bt_ptr, q_ptr, s_ptr, M, K, stride_x, stride_q, eps
         tl.store(qb + k0 + 192, _q8(y3, inv), mask=rmask[:, None])
 
 
-ROT_CFG = {"bm": 16, "num_warps": 4, "num_stages": 2}
+@triton.jit
+def _load_wide(xrow, c, m2, KIND: tl.constexpr, F, rstd, w_ptr, trow, shift_ptr, scale_ptr,
+               HAS_W: tl.constexpr, HSTRIDE):
+    """_load_act for a [BM, W] tile at absolute columns c (masked tail); same per-element arithmetic."""
+    if KIND == 3:
+        v = tl.load(xrow + ((c // 128) * HSTRIDE + (c % 128))[None, :], mask=m2, other=0.0).to(tl.float32)
+    else:
+        v = tl.load(xrow + c[None, :], mask=m2, other=0.0).to(tl.float32)
+    if KIND == 1:
+        u = tl.load(xrow + F + c[None, :], mask=m2, other=0.0).to(tl.float32)
+        v = v * tl.sigmoid(v) * u
+    if KIND == 2:
+        v = v * rstd[:, None]
+        if HAS_W:
+            v = v * tl.load(w_ptr + c, mask=c < F, other=0.0).to(tl.float32)[None, :]
+        sc = tl.load(scale_ptr + trow + c[None, :], mask=m2, other=0.0).to(tl.float32)
+        sh = tl.load(shift_ptr + trow + c[None, :], mask=m2, other=0.0).to(tl.float32)
+        v = v * (1.0 + sc) + sh
+    return v
+
+
+@triton.jit
+def _rot_wide(v, bt, BM: tl.constexpr, NG: tl.constexpr):
+    """[BM, NG*256] fp32 -> y0..y3 [BM, NG, 64]: the same Z_k = X_k B^T (one dot over all 64-chunks)
+    and Y_i = sum_k A[i,k] Z_k as _rot256, element for element."""
+    z = tl.dot(tl.reshape(v, (BM * NG * 4, 64)).to(tl.bfloat16), bt)
+    z = tl.permute(tl.reshape(z, (BM, NG, 2, 2, 64)), (0, 1, 4, 2, 3))   # [.., c, i, j], chunk = 2i + j
+    za, zb = tl.split(z)          # j = 0 / 1: [BM, NG, 64, 2(i)]
+    z0, z2 = tl.split(za)
+    z1, z3 = tl.split(zb)
+    y0 = (z0 + z1 + z2 - z3) * 0.5
+    y1 = (z0 + z1 - z2 + z3) * 0.5
+    y2 = (z0 - z1 + z2 + z3) * 0.5
+    y3 = (z1 + z2 + z3 - z0) * 0.5
+    return y0, y1, y2, y3
+
+
+@triton.jit
+def _ss_exact(xrow, rmask, K, BM: tl.constexpr):
+    """Row sum of squares with the exact fp32 operation order of _rot_quant_kernel's
+    `ss += tl.sum(v * v, axis=1)` over [16, 64] tiles at num_warps=4 (blocked layout: 8 lanes x 8
+    contiguous values per row; per lane t = v1*v1, then fma v0, v2..v7; butterfly xor 4, 2, 1;
+    chunks added in column order), written as explicit element-wise ops so it does not depend on
+    this kernel's BM / num_warps / layout."""
+    c = tl.arange(0, 256)
+    ss = tl.zeros([BM], dtype=tl.float32)
+    for k0 in range(0, K, 256):
+        v = tl.load(xrow + (k0 + c)[None, :], mask=rmask[:, None], other=0.0).to(tl.float32)
+        v = tl.reshape(v, (BM, 4, 8, 2, 2, 2))   # [row, chunk, lane, b2, b1, b0], element = 4*b2 + 2*b1 + b0
+        a, b = tl.split(v)
+        a0, a1 = tl.split(a)
+        b0, b1 = tl.split(b)
+        e0, e4 = tl.split(a0)
+        e2, e6 = tl.split(a1)
+        e1, e5 = tl.split(b0)
+        e3, e7 = tl.split(b1)
+        t = e1 * e1
+        t = tl.fma(e0, e0, t)
+        t = tl.fma(e2, e2, t)
+        t = tl.fma(e3, e3, t)
+        t = tl.fma(e4, e4, t)
+        t = tl.fma(e5, e5, t)
+        t = tl.fma(e6, e6, t)
+        t = tl.fma(e7, e7, t)
+        t = tl.reshape(t, (BM, 4, 2, 2, 2))      # [row, chunk, l2, l1, l0], lane = 4*l2 + 2*l1 + l0
+        p, q = tl.split(t)
+        p0, p1 = tl.split(p)
+        q0, q1 = tl.split(q)
+        s0, s4 = tl.split(p0)
+        s2, s6 = tl.split(p1)
+        s1, s5 = tl.split(q0)
+        s3, s7 = tl.split(q1)
+        cs = tl.reshape(((s0 + s4) + (s2 + s6)) + ((s1 + s5) + (s3 + s7)), (BM, 2, 2))
+        ca, cb = tl.split(cs)
+        c0, c2 = tl.split(ca)
+        c1, c3 = tl.split(cb)
+        ss = (((ss + c0) + c1) + c2) + c3
+    return ss
+
+
+@triton.jit
+def _rot_quant_wide_kernel(x_ptr, bt_ptr, q_ptr, s_ptr, M, K, stride_x, stride_q, eps,
+                           w_ptr, idx_ptr, shift_ptr, scale_ptr, stride_tab, HSTRIDE, NPROG,
+                           KIND: tl.constexpr, HAS_W: tl.constexpr, BM: tl.constexpr, NG: tl.constexpr,
+                           REV_AMAX: tl.constexpr, REV_Q: tl.constexpr, SS_EXACT: tl.constexpr):
+    """_rot_quant_kernel with NG 256-column groups per loop step ([BM, NG*256] tiles, more bytes in
+    flight per thread) and a persistent grid (NPROG programs, so the second pass re-reads from L2).
+    Bit-identical to it: same per-element prologue, same dot per 64-chunk, same Y combination,
+    order-free amax; the KIND 2 sum of squares is _ss_exact."""
+    pid = tl.program_id(0)
+    cols = tl.arange(0, 64)
+    bt = tl.load(bt_ptr + cols[:, None] * 64 + cols[None, :])
+    W: tl.constexpr = NG * 256
+    wc = tl.arange(0, W)
+    gi = tl.arange(0, NG)
+    nblk = tl.cdiv(M, BM)
+    nch = tl.cdiv(K, W)
+    for blk in range(pid, nblk, NPROG):
+        rows = blk * BM + tl.arange(0, BM)
+        rmask = rows < M
+        xrow = x_ptr + rows[:, None].to(tl.int64) * stride_x
+        rstd = tl.zeros([BM], dtype=tl.float32)
+        trow = rows[:, None].to(tl.int64) * 0
+        if KIND == 2:
+            if SS_EXACT:
+                ss = _ss_exact(xrow, rmask, K, BM)
+            else:   # the original [BM, 64] reduction (bit-identical only at BM 16, num_warps 4), 4 tiles per step
+                base = xrow + cols[None, :]
+                ss = tl.zeros([BM], dtype=tl.float32)
+                for k0 in range(0, K, 256):
+                    va = tl.load(base + k0, mask=rmask[:, None], other=0.0).to(tl.float32)
+                    vb = tl.load(base + k0 + 64, mask=rmask[:, None], other=0.0).to(tl.float32)
+                    vc = tl.load(base + k0 + 128, mask=rmask[:, None], other=0.0).to(tl.float32)
+                    vd = tl.load(base + k0 + 192, mask=rmask[:, None], other=0.0).to(tl.float32)
+                    ss += tl.sum(va * va, axis=1)
+                    ss += tl.sum(vb * vb, axis=1)
+                    ss += tl.sum(vc * vc, axis=1)
+                    ss += tl.sum(vd * vd, axis=1)
+            rstd = 1.0 / tl.sqrt(ss / K + eps)
+            r = tl.load(idx_ptr + rows, mask=rmask, other=0).to(tl.int64)
+            trow = r[:, None] * stride_tab
+        amax = tl.zeros([BM], dtype=tl.float32)
+        for t in range(0, nch):
+            if REV_AMAX:
+                k0 = (nch - 1 - t) * W
+            else:
+                k0 = t * W
+            c = k0 + wc
+            m2 = rmask[:, None] & (c < K)[None, :]
+            v = _load_wide(xrow, c, m2, KIND, K, rstd, w_ptr, trow, shift_ptr, scale_ptr, HAS_W, HSTRIDE)
+            y0, y1, y2, y3 = _rot_wide(v, bt, BM, NG)
+            m = tl.maximum(tl.max(tl.max(tl.abs(y0), axis=2), axis=1), tl.max(tl.max(tl.abs(y1), axis=2), axis=1))
+            m = tl.maximum(m, tl.maximum(tl.max(tl.max(tl.abs(y2), axis=2), axis=1),
+                                         tl.max(tl.max(tl.abs(y3), axis=2), axis=1)))
+            amax = tl.maximum(amax, m)
+        qs = tl.maximum(amax / 127.0, 1e-12)
+        tl.store(s_ptr + rows, qs, mask=rmask)
+        inv = (1.0 / qs)[:, None, None]
+        qrow = q_ptr + rows[:, None, None].to(tl.int64) * stride_q
+        for t in range(0, nch):
+            if REV_Q:
+                k0 = (nch - 1 - t) * W
+            else:
+                k0 = t * W
+            c = k0 + wc
+            m2 = rmask[:, None] & (c < K)[None, :]
+            v = _load_wide(xrow, c, m2, KIND, K, rstd, w_ptr, trow, shift_ptr, scale_ptr, HAS_W, HSTRIDE)
+            y0, y1, y2, y3 = _rot_wide(v, bt, BM, NG)
+            oc = k0 + gi[None, :, None] * 256 + cols[None, None, :]
+            sm = rmask[:, None, None] & (oc < K)
+            qp = qrow + oc
+            tl.store(qp, tl.extra.cuda.libdevice.rint(tl.minimum(tl.maximum(y0 * inv, -127.0), 127.0)).to(tl.int8), mask=sm)
+            tl.store(qp + 64, tl.extra.cuda.libdevice.rint(tl.minimum(tl.maximum(y1 * inv, -127.0), 127.0)).to(tl.int8), mask=sm)
+            tl.store(qp + 128, tl.extra.cuda.libdevice.rint(tl.minimum(tl.maximum(y2 * inv, -127.0), 127.0)).to(tl.int8), mask=sm)
+            tl.store(qp + 192, tl.extra.cuda.libdevice.rint(tl.minimum(tl.maximum(y3 * inv, -127.0), 127.0)).to(tl.int8), mask=sm)
+
+
+# Per-kind defaults for _rot_quant_wide_kernel, tuned on the real arguments of an H3 forward (GB10,
+# M = 44,455 / 22,310; the modulation tables are fp32 [rows, 5376] views with row stride 32256).
+# nprog is in units of SMs.  KIND 2 with ss_exact=False is bit-identical only at bm 16 / num_warps 4
+# (the original [16, 64] sum-of-squares reduction depends on that layout); _ss_exact works at any bm.
+ROT_CFGS = {
+    0: {"bm": 4, "ng": 8, "num_warps": 4, "num_stages": 1, "nprog": 1, "rev_amax": False, "rev_q": True},
+    1: {"bm": 4, "ng": 8, "num_warps": 4, "num_stages": 1, "nprog": 2, "rev_amax": False, "rev_q": True},
+    2: {"bm": 8, "ng": 2, "num_warps": 4, "num_stages": 1, "nprog": 2, "rev_amax": True, "rev_q": True,
+        "ss_exact": True},
+    3: {"bm": 8, "ng": 4, "num_warps": 4, "num_stages": 1, "nprog": 1, "rev_amax": False, "rev_q": True},
+}
+ROT_CFG = {"bm": 16, "num_warps": 4, "num_stages": 2}   # the original one-row-block-per-program kernel
+_H64T = {}
+_NSM = {}
+_STAGES_OK = {}
+
+
+def _h64t_cached(device):
+    key = str(device)
+    if key not in _H64T:
+        _H64T[key] = _h64t(device)
+    return _H64T[key]
 
 
 def _launch(x, k, kind, eps=0.0, weight=None, idx=None, shift=None, scale=None, cfg=None, hstride=0):
+    """cfg None: the per-kind ROT_CFGS (wide, persistent kernel).  A cfg without "ng" runs the
+    original _rot_quant_kernel ({"bm", "num_warps", "num_stages"}).  Both give identical bits."""
     assert x.ndim == 2 and x.stride(1) == 1 and k % ROT_GROUP == 0
     m = x.shape[0]
     q = torch.empty((m, k), device=x.device, dtype=torch.int8)
     s = torch.empty((m, 1), device=x.device, dtype=torch.float32)
-    c = cfg or ROT_CFG
     dummy = s
-    _rot_quant_kernel[(triton.cdiv(m, c["bm"]),)](
-        x, _h64t(x.device), q, s, m, k, x.stride(0), q.stride(0), float(eps),
-        weight if weight is not None else dummy, idx if idx is not None else dummy,
-        shift if shift is not None else dummy, scale if scale is not None else dummy,
-        shift.stride(0) if shift is not None else 0, hstride,
-        KIND=kind, HAS_W=weight is not None, BM=c["bm"], num_warps=c["num_warps"], num_stages=c["num_stages"])
-    return q, s
+    args = (x, _h64t_cached(x.device), q, s, m, k, x.stride(0), q.stride(0), float(eps),
+            weight if weight is not None else dummy, idx if idx is not None else dummy,
+            shift if shift is not None else dummy, scale if scale is not None else dummy,
+            shift.stride(0) if shift is not None else 0, hstride)
+    if cfg is not None and not cfg.get("ng"):
+        c = dict(ROT_CFG, **cfg)
+        _rot_quant_kernel[(triton.cdiv(m, c["bm"]),)](
+            *args, KIND=kind, HAS_W=weight is not None, BM=c["bm"],
+            num_warps=c["num_warps"], num_stages=c["num_stages"])
+        return q, s
+    c = dict(ROT_CFGS[kind], **(cfg or {}))
+    ss_exact = c.get("ss_exact", True) or not (c["bm"] == 16 and c["num_warps"] == 4)
+    if _STAGES_OK.get((kind, k, weight is not None, x.dtype, None if shift is None else shift.dtype,
+                       str(sorted(c.items())))) == 0:
+        return _launch(x, k, kind, eps, weight, idx, shift, scale, cfg=dict(ROT_CFG), hstride=hstride)
+    dkey = x.device.index if x.device.index is not None else torch.cuda.current_device()
+    if dkey not in _NSM:
+        _NSM[dkey] = torch.cuda.get_device_properties(dkey).multi_processor_count
+    nblk = triton.cdiv(m, c["bm"])
+    nprog = max(1, min(nblk, int(c["nprog"] * _NSM[dkey])))
+    # shared memory depends on the argument dtypes (e.g. fp32 modulation tables): if a config does not
+    # fit, retry with fewer pipeline stages, then the original kernel (all variants give the same bits)
+    fkey = (kind, k, weight is not None, x.dtype, None if shift is None else shift.dtype, str(sorted(c.items())))
+    st = _STAGES_OK.get(fkey, c["num_stages"])
+    while st >= 1:
+        try:
+            _rot_quant_wide_kernel[(nprog,)](
+                *args, nprog, KIND=kind, HAS_W=weight is not None, BM=c["bm"], NG=c["ng"],
+                REV_AMAX=c["rev_amax"], REV_Q=c["rev_q"], SS_EXACT=ss_exact,
+                num_warps=c["num_warps"], num_stages=st)
+            _STAGES_OK[fkey] = st
+            return q, s
+        except triton.runtime.errors.OutOfResources:
+            st -= 1
+    _STAGES_OK[fkey] = 0
+    return _launch(x, k, kind, eps, weight, idx, shift, scale, cfg=dict(ROT_CFG), hstride=hstride)
 
 
 def rot_quant_rows_i8(x, cfg=None):

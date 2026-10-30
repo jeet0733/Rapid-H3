@@ -3,6 +3,13 @@
 Times are warm per-clip times for a 768×1344, 141-frame (≈5.9 s) first-frame clip with audio on one DGX Spark.
 Stock ComfyUI bf16 at 10 steps: 590–630 s. Kernel details: [`docs/kernels.md`](docs/kernels.md).
 
+## 2026-10-29
+
+- **Faster quantizers, bit-identical.** The rotation + INT8 quantizers that feed every INT8 GEMM run on a persistent
+  grid that re-reads rows from L2 instead of DRAM, with wider tiles (`_rot_quant_wide_kernel`): 1.6–2.0× faster per
+  call, output `torch.equal` to before. Renders of the 6 screening shots are identical frame for frame on both presets.
+  `ts_h2` ≈117 → ≈114 s, `ts_s6` ≈201 → ≈194 s (`runs/2026-10-29/quantizer/`).
+
 ## 2026-10-27
 
 - **Attention config 190** is the default in `ts_h2` and `ts_s6`: the two warp groups' softmax sections overlap.

@@ -11,6 +11,12 @@ The `release_timing/*.jsonl` files are `harness/fast_test.py` results (`shot`, `
 `harness/shots/eval1.json`. `framemd5.txt` files hold the md5 over `ffmpeg -f framemd5` of each mp4 (every video and
 audio frame).
 
+## 2026-10-29
+
+| Folder | What it checks | Result |
+|---|---|---|
+| `quantizer/` | The faster rotation + INT8 quantizers (`_rot_quant_wide_kernel`, now the default) against the previous kernel: the 6 screening shots on `ts_h2` (`ts_h2_old.jsonl` / `ts_h2_new.jsonl`) and on `ts_s6` (`ts_s6_*.jsonl`), each preset on its own Spark, same server settings otherwise | `framemd5` identical for all 12 clips (`framemd5.txt`). Warm (first render excluded) median `ts_h2` 116.5 → 114.4 s (draft step ≈10.5 → ≈10.2 s), `ts_s6` 197.1 → 193.7 s (step ≈29.2 → ≈28.5 s) |
+
 ## 2026-10-27
 
 | Folder | What it checks | Result |

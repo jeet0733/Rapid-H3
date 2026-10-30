@@ -1,4 +1,4 @@
-"""Row 41 (Jenga text-attention bias): checks for attn_int8.attention_rr_bias (config 94 + per-key logit bias).
+"""Jenga text-attention bias: checks for attn_int8.attention_rr_bias (config 94 + per-key logit bias).
 
   save  (run with the build BEFORE the change): attention_rr config 94 outputs -> --ref file
   check (run with the new build):

@@ -2,29 +2,89 @@
 
 Rapid-H3 makes MiniMax-H3 (text / image → video with stereo audio) render **3–5× faster on a single NVIDIA DGX Spark (GB10)** than stock ComfyUI, with no human-noticeable loss in picture, motion, voice or lip sync. It is a ComfyUI node pack plus two ready-made render presets:
 
-- **`ts_h2`** (default): **≈117 s** for a 768×1344, 141-frame (≈5.9 s) first-frame clip with audio.
-- **`ts_s6`** (camera moves, close-up faces): **≈201 s**, at stock level on every criterion we score.
+- **`ts_h2`** (default): **≈114 s** for a 768×1344, 141-frame (≈5.9 s) first-frame clip with audio.
+- **`ts_s6`** (camera moves, close-up faces): **≈194 s**, at stock level on every criterion we score.
 - Stock ComfyUI bf16 at the 10-step reference: **590–630 s**.
 - The first render is slower on a fresh install, while the CUDA kernels are built (once) and the models load.
 
 Rapid-H3 is an independent community project. It is not affiliated with or endorsed by MiniMax, NVIDIA or Comfy Org; it works with the openly released MiniMax-H3 weights, which keep their own licence (see [Licence](#licence)).
 
 It gets there in two layers:
-1. **Faster steps** (the Rapid-H3 kernels, `docs/kernels.md`): INT8 matrix multiplies and attention with our own sm_121 kernels, fused quantizers, an INT8 text-encoder path and a faster video decoder. **1.9× per full-size step** (56.7 → 29.6 s) with per-step error within ≈2× of bf16's own rounding noise.
+1. **Faster steps** (the Rapid-H3 kernels, `docs/kernels.md`): INT8 matrix multiplies and attention with our own sm_121 kernels, fused quantizers, an INT8 text-encoder path and a faster video decoder. **2.0× per full-size step** (56.7 → 28.6 s) with per-step error within ≈2× of bf16's own rounding noise.
 2. **Fewer, smaller steps** (the ts_h recipe): 6 steps instead of 10; for `ts_h2`, a draft at 0.7× size, a learned ×2 latent upscale and one full-size refine step.
 
 Status: 2026-10-29. Measured on DGX Spark (GB10, 128 GB) with ComfyUI 0.39; the default image is now ComfyUI 0.42.1, validated bit-identical (same latents, frames and audio at the same speed). The build-up, every experiment and the rejected ideas are in `docs/kernels.md`.
 
+## Sample clips
+
+Same prompt, first-frame image and seed (7) for all three: stock H3 bf16 (10 steps, ≈610 s) | `ts_s6` (≈194 s) | `ts_h2` (≈114 s). Each clip plays three times; in each pass one version plays with its sound (orange frame) while the other two hold their first frame. Same seed does not give the same picture across versions (see [Results](#results)), so compare quality, motion and voice, not pixels. `ts_s6` keeps camera moves; `ts_h2` is for static or gently moving shots (its push-ins are weaker).
+
+### 1. Motion: slow camera push-in, wide shot
+
+https://github.com/user-attachments/assets/a480d0ea-7aa8-4efd-bd2f-6c267933b008
+
+1344×768, 141 frames (≈5.9 s), seed 7, first frame + prompt. Line: *"My father taught me these knots on this very pier."*
+
+<details><summary>Prompt</summary>
+
+```text
+Single continuous unbroken shot, no cuts. Photorealistic, natural film look, shallow depth of field, golden hour. A fisherman in his sixties with a weathered sunburnt face, white stubble and a faded blue knit cap sits on an upturned crate on a wooden pier, mending a fishing net with rough hands; calm water and gulls behind him. Timeline: [0s-5.9s] He stops working, looks at the camera, a little sad, and speaks softly. Camera: a slow, smooth push-in toward his face over the whole shot; no cuts. Audio: in a low, gravelly, unhurried voice the character says: "My father taught me these knots on this very pier." Soft lapping water. No music.
+```
+
+</details>
+
+### 2. Motion: slow camera push-in, medium shot
+
+https://github.com/user-attachments/assets/19020149-bff7-4dce-9bac-ba3c8c670d28
+
+1344×768, 141 frames (≈5.9 s), seed 7, first frame + prompt. Line: *"Houston, we have a pressure warning in module two."*
+
+<details><summary>Prompt</summary>
+
+```text
+Single continuous unbroken shot, no cuts. Cinematic science fiction, photorealistic, harsh white light. An astronaut in her thirties with dark hair pinned back, in a white spacesuit without a helmet, stands inside a bright lunar base module in front of a round porthole showing the grey lunar surface and black sky. Timeline: [0s-5.9s] Her face turns serious; she looks straight into the camera and speaks urgently. Camera: a slow, smooth push-in toward her face over the whole shot; no cuts. Audio: in a steady, clear, professional voice the character says: "Houston, we have a pressure warning in module two." A soft alarm tone, air recyclers humming. No music.
+```
+
+</details>
+
+### 3. Static: close-up dialogue
+
+https://github.com/user-attachments/assets/7fca21a2-8564-44ab-8c7b-4ae8feec86d2
+
+768×1344, 141 frames (≈5.9 s), seed 7, first frame + prompt. Line: *"You always said the rain would wash it all away."*
+
+<details><summary>Prompt</summary>
+
+```text
+Single continuous unbroken shot, no cuts. Photorealistic, soft overcast window light, intimate close-up. A man in his forties with short greying hair, a trimmed beard and kind tired eyes, wearing a dark sweater, sits by a rainy window in a quiet living room. Timeline: [0s-5.9s] He smiles softly at the camera and speaks gently. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: in a calm, soft, sincere voice the character says: "You always said the rain would wash it all away." Rain against the glass, quiet room tone. No music.
+```
+
+</details>
+
+### 4. Static: close-up, stylised character
+
+https://github.com/user-attachments/assets/2fc09258-dd2a-4535-bbc4-54224dd7ff94
+
+768×1344, 141 frames (≈5.9 s), seed 7, first frame + prompt. Line: *"Good morning. I have prepared your schedule for today."*
+
+<details><summary>Prompt</summary>
+
+```text
+Single continuous unbroken shot, no cuts. Cinematic science fiction, photorealistic, soft clinical light. A humanoid android with a smooth pale porcelain face, subtle seams along its cheeks, calm glass-blue eyes and a grey high-collared tunic stands in a minimalist white laboratory. Timeline: [0s-5.9s] It looks at the camera and speaks politely. Camera: static; it holds its framing: no push-in, no zoom, no pan, no cuts. Audio: in a calm, gentle, slightly synthetic voice the character says: "Good morning. I have prepared your schedule for today." Quiet lab hum. No music.
+```
+
+</details>
+
 ## Results
 
-All numbers: DGX Spark, 141 frames (times: 2026-10-27, `runs/2026-10-27/release_timing/`) (≈5.9 s), first frame + prompt, speech in every clip, models kept loaded. Same seed does not give the same picture as stock (any 8-bit change lands on a different, equally plausible clip), so quality is compared as statistics over shot sets.
+All numbers: DGX Spark, 141 frames (times: 2026-10-29, `runs/2026-10-29/quantizer/`) (≈5.9 s), first frame + prompt, speech in every clip, models kept loaded. Same seed does not give the same picture as stock (any 8-bit change lands on a different, equally plausible clip), so quality is compared as statistics over shot sets.
 
 | | Stock bf16, 10 steps | **`ts_h2`** (default) | **`ts_s6`** (motion, close-ups) |
 |---|---|---|---|
 | **Speed** (768×1344, warm server) | | | |
 | Steps | 10 at full size | 6 at 0.7× size + 1 at full size | 6 at full size |
-| s / step (draft / full size) | — / 56.7 | 10.5 / 29.1–29.5 | — / 29.4–29.9 |
-| **Time per clip** | **590–630 s** | **≈117 s** (6 shots: 115.5–118.4 s, median 116.5 s) | **≈201 s** (6 shots: 199.8–201.9 s, median 200.7 s) |
+| s / step (draft / full size) | — / 56.7 | 10.2 / 28.7–28.8 | — / 28.3–28.7 |
+| **Time per clip** | **590–630 s** | **≈114 s** (warm, 5 shots: 114.3–115.5 s, median 114.4 s) | **≈194 s** (warm, 5 shots: 193.5–194.6 s, median 193.7 s) |
 | Speed-up | 1.0× | ≈5× | ≈3× |
 | **Motion set** (16 clips: 8 shots × 2 seeds; camera push-ins, close-up faces) | | | |
 | Camera push-ins completed | 16/16 | 13/16 | **16/16** |
@@ -109,7 +169,7 @@ Accuracy gate: every step is checked by **single-step divergence** (`RapidH3Shad
 | Part | What it does | Speed | Quality |
 |---|---|---|---|
 | 6 steps instead of 10 (`res_multistep`, `simple`, shift 12 / 3) | | 1.7× fewer steps | `ts_s6`: stock level on every scored criterion |
-| **Draft at 0.7× size** (`ts_h2`) | the whole 6-step schedule at ≈half the tokens; this fixes composition, motion and audio | 10.5 s per step instead of 29.6 s | framing, people and identity match the first frame. Smaller drafts (0.6×, 0.5×) crop in to close-ups and are rejected |
+| **Draft at 0.7× size** (`ts_h2`) | the whole 6-step schedule at ≈half the tokens; this fixes composition, motion and audio | 10.2 s per step instead of 28.6 s | framing, people and identity match the first frame. Smaller drafts (0.6×, 0.5×) crop in to close-ups and are rejected |
 | **×2 latent upscale** | `MinimaxH3LatentUpscaler3D` (community node, MIT) maps the draft's video latent to full size without a decode | ≈3 s | none visible |
 | **1 refine step at full size from σ 0.72** | re-renders skin, hair and texture at full resolution, low enough that the layout stays | 29.3 s | identity at stock level; lip sync −0.5 LSE-C, flicker ×1.18 |
 | **Conditioning encoded once** (`encode_once="draft"`) | the refine reuses the draft's text encode and re-encodes only the first frame at full size | −5.5 s | audio bit-identical; refine latent moves 1.5–2.0% (int8 vs bf16: 3–8%) |
