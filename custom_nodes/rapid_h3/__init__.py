@@ -950,6 +950,11 @@ class RapidH3StepTimer:
     def patch(self, model):
         m = model.clone()
         path = os.environ.get("RAPIDH3_STEPS", "/data/output/rapidh3_steps.jsonl")
+        # The timer is optional: outside the Docker image the default /data/output may not exist, and the open() below
+        # would fail the sampler. With no folder, print one line and run untimed.
+        if not os.path.isdir(os.path.dirname(os.path.abspath(path))):
+            print("RapidH3StepTimer: %s has no folder; step timer skipped (set RAPIDH3_STEPS to a writable file)" % path)
+            return (m,)
 
         def wrapper(executor, *args, **kwargs):
             torch.cuda.synchronize()
