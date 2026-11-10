@@ -115,6 +115,18 @@ The first clip after a server start takes longer: ≈0.5–1 min more to load th
 
 **Which preset:** `ts_h2` for most shots (static or gently moving camera, medium and wide shots, dialogue). `ts_s6` for shots where a camera move or a close-up face matters (push-ins, dolly moves, beauty close-ups, lip-sync-critical dialogue), and with reference images (Ref2VA). Rule of thumb: camera move → `ts_s6`, static → `ts_h2`.
 
+## RTX PRO 6000
+
+The same pack runs on an RTX PRO 6000 (Blackwell desktop, sm_120). Settings: 768×1344, 141 frames (≈5.9 s at 24 fps), first-and-last-frame clips with a prompt, models kept loaded, ComfyUI 0.42.5. The Results table uses a first frame only, so these timings are not a like-for-like comparison.
+
+| Preset | Warm clip (models loaded) |
+|---|---|
+| `ts_h2` | ≈36 s |
+
+The first render after the models load takes about 121 s (`ts_h2`, seed 43; the kernels build if they are not cached). For comparison, `ts_h2` on DGX Spark takes 113–150 s per clip (see Results).
+
+`workflow.build(..., sparse="sol-attn")` exists as an opt-in, but it is lossy in our measurements (see docs/kernels.md); it is not a preset.
+
 ## Quick start
 
 Requirements: one NVIDIA DGX Spark (GB10, 128 GB unified memory) with DGX OS and Docker, about 72 GB of disk for the model files (plus ≈40 GB for the optional Ref2VA checkpoint) and ≈21 GB for the image. Setting it up from scratch (Docker image, weights with sha256, kernels, evaluation environment): **`REBUILD.md`**.
@@ -247,6 +259,28 @@ What it needs:
 - For `ts_h2`: the `Comfyui_Minimax_h3_latent_Upscaler` node pack and its weights (below).
 - Models: FL2VA DiT (bf16, quantized at load, or int8_convrot), int8 video VAE, fp32 audio VAE, Qwen3-VL int8 text encoder.
 - Optional: RapidH3StepTimer and RapidH3SaveLatent can be removed; RapidH3DecodeSaveVideo can be replaced by VAEDecode → CreateVideo → SaveVideo (+≈2 s, same frames).
+
+## Running outside Docker
+
+The pack runs in any ComfyUI that has its nodes and models, without the image. Set these first:
+
+- **CUTLASS headers.** The FP8 and VAE kernels build against CUTLASS v4.2.1 (clone it as in `REBUILD.md` section 1), found at `RAPIDH3_CUTLASS`. The default, `/work/third_party/cutlass`, is the container path; set it to your clone.
+- **JIT build cache.** The kernels build on the first render into `RAPIDH3_BUILD` (default: `custom_nodes/rapid_h3/build`). Keep it on a disk you own; the first render after a fresh build takes a few minutes more.
+- **Target GPU.** Both builds read the card's compute capability, so one checkout builds for GB10 (sm_121) and for Blackwell desktop cards (sm_120). Nothing to set.
+
+Other variables the pack reads (all optional):
+
+| Variable | What it does | Default |
+|---|---|---|
+| `RAPIDH3_VAE_FAST` | decoder level; `0` gives the stock decoder | `4` |
+| `RAPIDH3_VAE_TILES` | tiles per batch in the decoder | `28` |
+| `RAPIDH3_ATTN_CONFIG` | attention config for direct calls (the presets pass their own) | `0` |
+| `RAPIDH3_TRACE`, `RAPIDH3_TRACE_CLIP`, `RAPIDH3_TIMING`, `RAPIDH3_PROBE`, `RAPIDH3_PROFILE`, `RAPIDH3_PROFILE_PERIOD`, `RAPIDH3_STATS`, `RAPIDH3_SHADOW`, `RAPIDH3_STEPS`, `RAPIDH3_DUMP`, `RAPIDH3_RRCHECK` | debugging switches and their output files | output files, written to the container's data mount: point them at a folder you own when you turn one on |
+| `RAPIDH3_DIR`, `RAPIDH3_MODELS`, `RAPIDH3_EVAL_CACHE` | the harness scripts' data, weights and evaluation caches | `~/rapid-h3`, `~/h3/models`, `$RAPIDH3_DIR/eval_cache` |
+
+**ComfyUI version.** `ts_h2` and `ts_s6` run on ComfyUI 0.42.1 (the default image) or 0.39.
+
+**Free the card first.** Stop any other GPU server on the same card (a second ComfyUI, another model server) before a render, and check `nvidia-smi`. The pipeline keeps the DiT, the text encoder and the VAE loaded; another process on the card can take the memory a render needs and make it fail.
 
 ## Rolling back
 

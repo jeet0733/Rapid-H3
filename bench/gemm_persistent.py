@@ -10,6 +10,7 @@ from torch.utils.cpp_extension import load
 
 sys.path.insert(0, "/work/custom_nodes/rapid_h3")
 import cutlass_fp8  # noqa: E402
+from arch import gencode  # noqa: E402
 
 SHAPES = {"qkv": (5376, 21504), "out_proj": (7168, 5376), "fc1": (5376, 28672), "fc2": (14336, 5376)}
 HERE = "/work/custom_nodes/rapid_h3"
@@ -19,7 +20,7 @@ def ext():
     build = os.path.join(os.environ.get("RAPIDH3_BUILD", "/tmp"), "gemm_p")
     os.makedirs(build, exist_ok=True)
     return load(name="rapidh3_int8_gemm_p", sources=[f"{HERE}/csrc/int8_gemm_p.cu"], build_directory=build,
-                extra_cuda_cflags=["-O3", "-std=c++17", "-gencode=arch=compute_121a,code=sm_121a", "-lineinfo"])
+                extra_cuda_cflags=["-O3", "-std=c++17", gencode("a"), "-lineinfo"])
 
 
 def timed(fn, iters=10):

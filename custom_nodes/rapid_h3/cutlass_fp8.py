@@ -1,8 +1,13 @@
-"""JIT build of csrc/fp8_rowwise.cu for sm_121 (CUTLASS headers from $RAPIDH3_CUTLASS)."""
+"""JIT build of csrc/fp8_rowwise.cu for the local GPU, sm_121 or sm_120 (CUTLASS headers from $RAPIDH3_CUTLASS)."""
 import os
 
 import torch
 from torch.utils.cpp_extension import load
+
+try:
+    from .arch import gencode
+except ImportError:  # imported as a top-level module by the bench scripts
+    from arch import gencode
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _mod = None
@@ -19,8 +24,7 @@ def ext():
             sources=[os.path.join(_HERE, "csrc", "fp8_rowwise.cu")],
             extra_include_paths=[f"{cutlass}/include", f"{cutlass}/tools/util/include"],
             extra_cuda_cflags=["-O3", "-std=c++17", "--expt-relaxed-constexpr",
-                               "-gencode=arch=compute_121,code=sm_121",
-                               "-DCUTLASS_ENABLE_TENSOR_CORE_MMA=1"],
+                               gencode(), "-DCUTLASS_ENABLE_TENSOR_CORE_MMA=1"],
             build_directory=build, verbose=False)
     return _mod
 

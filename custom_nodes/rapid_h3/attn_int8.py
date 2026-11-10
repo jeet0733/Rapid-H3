@@ -1,8 +1,13 @@
-"""INT8 flash attention for GB10 (csrc/attn_int8.cu), JIT-built for sm_121."""
+"""INT8 flash attention (csrc/attn_int8.cu), JIT-built for the local GPU: sm_121 (GB10) or sm_120 (Blackwell desktop)."""
 import os
 
 import torch
 from torch.utils.cpp_extension import load
+
+try:
+    from .arch import gencode
+except ImportError:  # imported as a top-level module by the bench scripts
+    from arch import gencode
 
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _mod = None
@@ -17,7 +22,7 @@ def ext():
         _mod = load(
             name="rapidh3_attn_int8",
             sources=[os.path.join(_HERE, "csrc", "attn_int8.cu")],
-            extra_cuda_cflags=["-O3", "-std=c++17", "-gencode=arch=compute_121a,code=sm_121a", "-lineinfo"],
+            extra_cuda_cflags=["-O3", "-std=c++17", gencode("a"), "-lineinfo"],
             build_directory=build, verbose=False)
     return _mod
 

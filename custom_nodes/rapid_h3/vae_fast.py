@@ -26,6 +26,11 @@ import weakref
 import torch
 from torch.utils.cpp_extension import load
 
+try:
+    from .arch import gencode
+except ImportError:  # imported as a top-level module by the bench scripts
+    from arch import gencode
+
 _HERE = os.path.dirname(os.path.abspath(__file__))
 _mod = None
 _ORIG = {}
@@ -42,7 +47,7 @@ def ext():
             sources=[os.path.join(_HERE, "csrc", "vae_ops.cu")],
             extra_include_paths=[f"{cutlass}/include", f"{cutlass}/tools/util/include"],
             extra_cuda_cflags=["-O3", "-std=c++17", "--expt-relaxed-constexpr", "--use_fast_math",
-                               "-gencode=arch=compute_121,code=sm_121"],
+                               gencode()],
             build_directory=build, verbose=False)
     return _mod
 
